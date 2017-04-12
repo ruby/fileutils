@@ -13,4 +13,6 @@ Gem::Specification.new do |s|
   s.email = [nil]
   s.homepage = "https://www.ruby-lang.org"
   s.license = "BSD-2-Clause"
+
+  s.add_development_dependency 'rake'
 end
