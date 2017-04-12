@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "fileutils"
-  s.version = '0.0.1'
+  s.version = '0.7.1'
   s.date = '2017-02-06'
   s.summary = "Several file utility methods for copying, moving, removing, etc."
   s.description = "Several file utility methods for copying, moving, removing, etc."
