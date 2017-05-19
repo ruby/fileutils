@@ -2,5 +2,4 @@ sudo: false
 language: ruby
 rvm:
   - ruby-head
-before_install: gem install bundler
 script: rake test
