@@ -12,7 +12,7 @@ class TestFileUtils < Test::Unit::TestCase
   include Test::Unit::FileAssertions
 
   def assert_output_lines(expected, fu = self, message=nil)
-    old = fu.instance_variable_get(:@fileutils_output)
+    old = fu.instance_variables.include?(:@fileutils_output) && fu.instance_variable_get(:@fileutils_output)
     IO.pipe {|read, write|
       fu.instance_variable_set(:@fileutils_output, write)
       th = Thread.new { read.read }
