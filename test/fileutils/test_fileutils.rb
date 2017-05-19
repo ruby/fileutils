@@ -1399,7 +1399,7 @@ class TestFileUtils < Test::Unit::TestCase
 
       def test_chown_R_without_permission
         touch 'tmp/a'
-        exception = assert_raise(Errno::EPERM) {
+        assert_raise(Errno::EPERM) {
           chown_R UID_1, nil, 'tmp/a'
           chown_R UID_2, nil, 'tmp/a'
         }
