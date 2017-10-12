@@ -438,6 +438,15 @@ class TestFileUtils < Test::Unit::TestCase
     }
   end
 
+  def test_cp_r_symlink_remove_destination
+    Dir.mkdir 'tmp/src'
+    Dir.mkdir 'tmp/dest'
+    Dir.mkdir 'tmp/src/dir'
+    File.symlink 'tmp/src/dir', 'tmp/src/a'
+    cp_r 'tmp/src', 'tmp/dest/', remove_destination: true
+    cp_r 'tmp/src', 'tmp/dest/', remove_destination: true
+  end
+
   def test_mv
     check_singleton :mv
 
@@ -1437,6 +1446,14 @@ class TestFileUtils < Test::Unit::TestCase
     assert_symlink 'tmp/dirdest/sym'
     assert_equal 'somewhere', File.readlink('tmp/dirdest/sym')
   end if have_symlink?
+
+  def test_copy_entry_symlink_remove_destination
+    Dir.mkdir 'tmp/dir'
+    File.symlink 'tmp/dir', 'tmp/dest'
+    touch 'tmp/src'
+    copy_entry 'tmp/src', 'tmp/dest', false, false, true
+    assert_file_exist 'tmp/dest'
+  end
 
   def test_copy_file
     check_singleton :copy_file
