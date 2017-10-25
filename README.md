@@ -1,4 +1,5 @@
-# Fileutils
+# FileUtils
+
 [![Build Status](https://travis-ci.org/ruby/fileutils.svg?branch=master)](https://travis-ci.org/ruby/fileutils)
 
 Namespace for several file utility methods for copying, moving, removing, etc.
@@ -24,14 +25,15 @@ Or install it yourself as:
 Just call `FileUtils` methods. For example:
 
 ```ruby
-FileUtils.mkdir('somefile')
-# => ["somefile"]
+FileUtils.mkdir("somedir")
+# => ["somedir"]
 
+FileUtils.cd("/usr/bin")
 FileUtils.pwd
-# => "~/fileutils"
+# => "/usr/bin"
 ```
 
-Full method list you can find in [documentation](https://ruby-doc.org/stdlib-1.9.3/libdoc/fileutils/rdoc/FileUtils.html).
+You can find a full method list in the [documentation](https://ruby-doc.org/stdlib-1.9.3/libdoc/fileutils/rdoc/FileUtils.html).
 
 ## Contributing
 
@@ -39,5 +41,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/ruby/f
 
 ## License
 
-The gem is available as open source under the terms of the [The 2-Clause BSD License](https://opensource.org/licenses/BSD-2-Clause).
-
+The gem is available as open source under the terms of the [2-Clause BSD License](https://opensource.org/licenses/BSD-2-Clause).
