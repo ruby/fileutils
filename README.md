@@ -33,7 +33,7 @@ FileUtils.pwd
 # => "/usr/bin"
 ```
 
-You can find a full method list in the [documentation](https://ruby-doc.org/stdlib-1.9.3/libdoc/fileutils/rdoc/FileUtils.html).
+You can find a full method list in the [documentation](https://ruby-doc.org/stdlib/libdoc/fileutils/rdoc/FileUtils.html).
 
 ## Contributing
 
