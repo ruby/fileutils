@@ -1,7 +1,11 @@
 # frozen_string_literal: true
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'fileutils/version'
+
 Gem::Specification.new do |s|
   s.name = "fileutils"
-  s.version = '0.7.2'
+  s.version = FileUtils::VERSION
   s.date = '2017-02-06'
   s.summary = "Several file utility methods for copying, moving, removing, etc."
   s.description = "Several file utility methods for copying, moving, removing, etc."
