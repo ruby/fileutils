@@ -85,6 +85,8 @@
 # <tt>:verbose</tt> flags to methods in FileUtils.
 #
 
+require 'fileutils/version'
+
 module FileUtils
 
   def self.private_module_function(name)   #:nodoc:
