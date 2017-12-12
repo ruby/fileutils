@@ -794,13 +794,15 @@ class TestFileUtils < Test::Unit::TestCase
     check_singleton :ln_s
 
     TARGETS.each do |fname|
-      fname = "../#{fname}"
-      lnfname = 'tmp/lnsdest'
-      ln_s fname, lnfname
-      assert FileTest.symlink?(lnfname), 'not symlink'
-      assert_equal fname, File.readlink(lnfname)
-    ensure
-      rm_f lnfname
+      begin
+        fname = "../#{fname}"
+        lnfname = 'tmp/lnsdest'
+        ln_s fname, lnfname
+        assert FileTest.symlink?(lnfname), 'not symlink'
+        assert_equal fname, File.readlink(lnfname)
+      ensure
+        rm_f lnfname
+      end
     end
   end if have_symlink? and !no_broken_symlink?
 
