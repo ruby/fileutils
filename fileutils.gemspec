@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.require_path = %w{lib}
   s.files = [".gitignore", ".travis.yml", "Gemfile", "LICENSE.txt", "README.md", "Rakefile", "bin/console", "bin/setup", "fileutils.gemspec", "lib/fileutils.rb"]
-  s.required_ruby_version = ">= 2.3.0"
+  s.required_ruby_version = ">= 2.4.0"
 
   s.authors = ["Minero Aoki"]
   s.email = [nil]
