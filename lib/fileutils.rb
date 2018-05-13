@@ -488,7 +488,7 @@ module FileUtils
   module_function :move
 
   def rename_cannot_overwrite_file?   #:nodoc:
-    /emx/ =~ RUBY_PLATFORM
+    /emx/ =~ RbConfig::CONFIG['host_os']
   end
   private_module_function :rename_cannot_overwrite_file?
 
@@ -1070,7 +1070,7 @@ module FileUtils
     private
 
     def fu_windows?
-      /mswin|mingw|bccwin|emx/ =~ RUBY_PLATFORM
+      /mswin|mingw|bccwin|emx/ =~ RbConfig::CONFIG['host_os']
     end
 
     def fu_copy_stream0(src, dest, blksize = nil)   #:nodoc:
