@@ -233,7 +233,7 @@ class TestFileUtils < Test::Unit::TestCase
 
   def test_assert_output_lines
     assert_raise(MiniTest::Assertion) {
-      Timeout.timeout(0.1) {
+      Timeout.timeout(0.5) {
         assert_output_lines([]) {
           Thread.current.report_on_exception = false
           raise "ok"
