@@ -744,8 +744,15 @@ module FileUtils
   #
   def compare_stream(a, b)
     bsize = fu_stream_blksize(a, b)
-    sa = String.new(capacity: bsize)
-    sb = String.new(capacity: bsize)
+
+    if RUBY_VERSION > "2.4"
+      sa = String.new(capacity: bsize)
+      sb = String.new(capacity: bsize)
+    else
+      sa = String.new
+      sb = String.new
+    end
+
     begin
       a.read(bsize, sa)
       b.read(bsize, sb)
