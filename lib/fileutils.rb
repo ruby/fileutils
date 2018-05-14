@@ -121,8 +121,9 @@ module FileUtils
   #
   def cd(dir, verbose: nil, &block) # :yield: dir
     fu_output_message "cd #{dir}" if verbose
-    Dir.chdir(dir, &block)
+    result = Dir.chdir(dir, &block)
     fu_output_message 'cd -' if verbose and block
+    result
   end
   module_function :cd
 

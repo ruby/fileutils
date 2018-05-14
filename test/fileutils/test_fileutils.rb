@@ -1576,6 +1576,10 @@ class TestFileUtils < Test::Unit::TestCase
     check_singleton :cd
   end
 
+  def test_cd_result
+    assert_equal 42, cd('.') { 42 }
+  end
+
   def test_chdir
     check_singleton :chdir
   end
