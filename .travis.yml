@@ -1,7 +1,11 @@
 sudo: false
 language: ruby
 rvm:
+  - 2.3.7
   - 2.4.4
   - 2.5.1
   - ruby-head
 script: rake test
+matrix:
+  allow_failures:
+    - rvm: 2.3.7
