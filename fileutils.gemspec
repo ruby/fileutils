@@ -1,7 +1,10 @@
 # frozen_string_literal: true
+
+require_relative "lib/fileutils"
+
 Gem::Specification.new do |s|
   s.name = "fileutils"
-  s.version = '1.0.2'
+  s.version = FileUtils::VERSION
   s.date = '2017-12-22'
   s.summary = "Several file utility methods for copying, moving, removing, etc."
   s.description = "Several file utility methods for copying, moving, removing, etc."
