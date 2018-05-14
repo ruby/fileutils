@@ -5,7 +5,9 @@ rvm:
   - 2.4.4
   - 2.5.1
   - ruby-head
+  - jruby-9.1.17.0
 script: rake test
 matrix:
   allow_failures:
     - rvm: 2.3.7
+    - rvm: jruby-9.1.17.0
