@@ -1,6 +1,8 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
+JRuby.objectspace = true if RUBY_PLATFORM == 'java'
+
 Rake::TestTask.new(:test) do |t|
   t.libs << "test" << "test/lib"
   t.libs << "lib"
