@@ -89,7 +89,7 @@ require 'rbconfig'
 
 module FileUtils
 
-  VERSION = "1.0.2"
+  VERSION = "1.1.0"
 
   def self.private_module_function(name)   #:nodoc:
     module_function name
