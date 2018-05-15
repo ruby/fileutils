@@ -85,7 +85,11 @@
 # <tt>:verbose</tt> flags to methods in FileUtils.
 #
 
-require 'rbconfig'
+begin
+  require 'rbconfig'
+rescue LoadError
+  # for make mjit-headers
+end
 
 module FileUtils
 
