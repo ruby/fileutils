@@ -56,7 +56,7 @@
 #
 # There are some `low level' methods, which do not accept any option:
 #
-#   FileUtils.copy_entry(src, dest, preserve = false, dereference = false)
+#   FileUtils.copy_entry(src, dest, preserve = false, dereference_root = false, remove_destination = false)
 #   FileUtils.copy_file(src, dest, preserve = false, dereference = true)
 #   FileUtils.copy_stream(srcstream, deststream)
 #   FileUtils.remove_entry(path, force = false)
