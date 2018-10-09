@@ -91,9 +91,9 @@ rescue LoadError
   # for make mjit-headers
 end
 
-module FileUtils
+require "fileutils/version"
 
-  VERSION = "1.1.0"
+module FileUtils
 
   def self.private_module_function(name)   #:nodoc:
     module_function name
