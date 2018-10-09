@@ -1,4 +1,13 @@
 # frozen_string_literal: true
+
+begin
+  require 'rbconfig'
+rescue LoadError
+  # for make mjit-headers
+end
+
+require "fileutils/version"
+
 #
 # = fileutils.rb
 #
@@ -84,15 +93,6 @@
 # files/directories.  This equates to passing the <tt>:noop</tt> and
 # <tt>:verbose</tt> flags to methods in FileUtils.
 #
-
-begin
-  require 'rbconfig'
-rescue LoadError
-  # for make mjit-headers
-end
-
-require "fileutils/version"
-
 module FileUtils
 
   def self.private_module_function(name)   #:nodoc:
