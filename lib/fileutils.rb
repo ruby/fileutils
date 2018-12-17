@@ -114,12 +114,14 @@ module FileUtils
   #
   # Changes the current directory to the directory +dir+.
   #
-  # If this method is called with block, resumes to the old
-  # working directory after the block execution finished.
+  # If this method is called with block, resumes to the previous
+  # working directory after the block execution has finished.
   #
-  #   FileUtils.cd('/', :verbose => true)   # chdir and report it
+  #   FileUtils.cd('/')  # change directory
   #
-  #   FileUtils.cd('/') do  # chdir
+  #   FileUtils.cd('/', :verbose => true)   # change directory and report it
+  #
+  #   FileUtils.cd('/') do  # change directory
   #     # ...               # do something
   #   end                   # return to original directory
   #
