@@ -8,6 +8,6 @@ rvm:
 script: rake test
 matrix:
   include:
-    - rvm: jruby-9.1.17.0
+    - rvm: jruby-9.2.5.0
       env:
         - "JRUBY_OPTS='-J-Xmx1024M -X+O'"
