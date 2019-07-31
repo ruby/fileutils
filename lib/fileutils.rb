@@ -1602,13 +1602,13 @@ module FileUtils
   end
   private_module_function :fu_same?
 
-  @fileutils_output = $stderr
-  @fileutils_label  = ''
-
   def fu_output_message(msg)   #:nodoc:
-    @fileutils_output ||= $stderr
-    @fileutils_label  ||= ''
-    @fileutils_output.puts @fileutils_label + msg
+    output = @fileutils_output if defined?(@fileutils_output)
+    output ||= $stderr
+    if defined?(@fileutils_label)
+      msg = @fileutils_label + msg
+    end
+    output.puts msg
   end
   private_module_function :fu_output_message
 
@@ -1689,8 +1689,6 @@ module FileUtils
   #
   module Verbose
     include FileUtils
-    @fileutils_output  = $stderr
-    @fileutils_label   = ''
     names = ::FileUtils.collect_method(:verbose)
     names.each do |name|
       module_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -1714,8 +1712,6 @@ module FileUtils
   module NoWrite
     include FileUtils
     include LowMethods
-    @fileutils_output  = $stderr
-    @fileutils_label   = ''
     names = ::FileUtils.collect_method(:noop)
     names.each do |name|
       module_eval(<<-EOS, __FILE__, __LINE__ + 1)
@@ -1740,8 +1736,6 @@ module FileUtils
   module DryRun
     include FileUtils
     include LowMethods
-    @fileutils_output  = $stderr
-    @fileutils_label   = ''
     names = ::FileUtils.collect_method(:noop)
     names.each do |name|
       module_eval(<<-EOS, __FILE__, __LINE__ + 1)
