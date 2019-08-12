@@ -1,7 +1,5 @@
 # FileUtils
 
-[![Build Status](https://travis-ci.org/ruby/fileutils.svg?branch=master)](https://travis-ci.org/ruby/fileutils)
-
 Namespace for several file utility methods for copying, moving, removing, etc.
 
 ## Installation
