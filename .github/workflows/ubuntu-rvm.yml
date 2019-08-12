@@ -27,3 +27,5 @@ jobs:
       run: |
         source $HOME/.rvm/scripts/rvm
         rake
+      env:
+        JRUBY_OPTS: -X+O
