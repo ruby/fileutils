@@ -1,5 +1,5 @@
 # encoding: utf-8
-# frozen_string_literal: false
+# frozen_string_literal: true
 
 require "optparse"
 require "rbconfig"
@@ -79,18 +79,14 @@ module MiniTest
     # figure out what diff to use.
 
     def self.diff
-      @diff = if (RbConfig::CONFIG['host_os'] =~ /mswin|mingw/ &&
-                  system("diff.exe", __FILE__, __FILE__)) then
-                "diff.exe -u"
-              elsif Minitest::Unit::Guard.maglev? then # HACK
-                "diff -u"
-              elsif system("gdiff", __FILE__, __FILE__)
-                "gdiff -u" # solaris and kin suck
-              elsif system("diff", __FILE__, __FILE__)
-                "diff -u"
-              else
-                nil
-              end unless defined? @diff
+      unless defined? @diff
+        exe = RbConfig::CONFIG['EXEEXT']
+        @diff = %W"gdiff#{exe} diff#{exe}".find do |diff|
+          if system(diff, "-u", __FILE__, __FILE__)
+            break "#{diff} -u"
+          end
+        end
+      end
 
       @diff
     end
@@ -179,7 +175,7 @@ module MiniTest
     # uses mu_pp to do the first pass and then cleans it up.
 
     def mu_pp_for_diff obj
-      mu_pp(obj).gsub(/\\n/, "\n").gsub(/:0x[a-fA-F0-9]{4,}/m, ':0xXXXXXX')
+      mu_pp(obj).gsub(/(?<!\\)(?:\\\\)*\K\\n/, "\n").gsub(/:0x[a-fA-F0-9]{4,}/m, ':0xXXXXXX')
     end
 
     def _assertions= n # :nodoc:
@@ -484,6 +480,7 @@ module MiniTest
 
       return captured_stdout.string, captured_stderr.string
     end
+    alias capture_output capture_io
 
     ##
     # Captures $stdout and $stderr into strings, using Tempfile to
@@ -900,7 +897,8 @@ module MiniTest
         puts "Finished%s %ss in %.6fs, %.4f tests/s, %.4f assertions/s.\n" %
              [(@repeat_count ? "(#{count}/#{@repeat_count}) " : ""), type,
                t, @test_count.fdiv(t), @assertion_count.fdiv(t)]
-      end while @repeat_count && count < @repeat_count && report.empty?
+      end while @repeat_count && count < @repeat_count &&
+                report.empty? && failures.zero? && errors.zero?
 
       output.sync = old_sync if sync
 
@@ -955,7 +953,9 @@ module MiniTest
         puts if @verbose
         $stdout.flush
 
-        leakchecker.check("#{inst.class}\##{inst.__name__}")
+        unless defined?(RubyVM::MJIT) && RubyVM::MJIT.enabled? # compiler process is wrongly considered as leak
+          leakchecker.check("#{inst.class}\##{inst.__name__}")
+        end
 
         inst._assertions
       }
@@ -985,6 +985,9 @@ module MiniTest
 
     def location e # :nodoc:
       last_before_assertion = ""
+
+      return '<empty>' unless e.backtrace # SystemStackError can return nil.
+
       e.backtrace.reverse_each do |s|
         break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
         last_before_assertion = s
@@ -1168,6 +1171,14 @@ module MiniTest
       def windows? platform = RUBY_PLATFORM
         /mswin|mingw/ =~ platform
       end
+
+      ##
+      # Is this running on mingw?
+
+      def mingw? platform = RUBY_PLATFORM
+        /mingw/ =~ platform
+      end
+
     end
 
     ##
