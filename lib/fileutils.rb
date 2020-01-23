@@ -1342,6 +1342,7 @@ module FileUtils
       else
         File.chmod mode, path()
       end
+    rescue Errno::EOPNOTSUPP
     end
 
     def chown(uid, gid)
@@ -1436,7 +1437,7 @@ module FileUtils
       if st.symlink?
         begin
           File.lchmod mode, path
-        rescue NotImplementedError
+        rescue NotImplementedError, Errno::EOPNOTSUPP
         end
       else
         File.chmod mode, path
