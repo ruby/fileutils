@@ -837,8 +837,13 @@ module FileUtils
   def compare_stream(a, b)
     bsize = fu_stream_blksize(a, b)
 
-    sa = String.new(capacity: bsize)
-    sb = String.new(capacity: bsize)
+    if RUBY_VERSION > "2.4"
+      sa = String.new(capacity: bsize)
+      sb = String.new(capacity: bsize)
+    else
+      sa = String.new
+      sb = String.new
+    end
 
     begin
       a.read(bsize, sa)
@@ -1287,7 +1292,12 @@ module FileUtils
       opts = {}
       opts[:encoding] = fu_windows? ? ::Encoding::UTF_8 : path.encoding
 
-      files = Dir.children(path, **opts)
+      files = if Dir.respond_to?(:children)
+        Dir.children(path, **opts)
+      else
+        Dir.entries(path(), **opts)
+           .reject {|n| n == '.' or n == '..' }
+      end
 
       untaint = RUBY_VERSION < '2.7'
       files.map {|n| Entry_.new(prefix(), join(rel(), untaint ? n.untaint : n)) }
