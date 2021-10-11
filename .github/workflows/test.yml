@@ -1,0 +1,29 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        ruby: [ 'head', '3.0', '2.7', '2.6', '2.5' ]
+        os: [ 'ubuntu-latest', 'windows-latest' ]
+        include:
+          - { os: macos-latest, ruby: '2.6' }
+          - { os: ubuntu-latest, ruby: 'jruby-head' }
+          - { os: ubuntu-latest, ruby: 'jruby-9.2' }
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # 'bundle install' and cache
+      - name: Ensure new-enough RubyGems
+        run: gem update --system
+        if: ${{ matrix.ruby == '2.6' || matrix.ruby == '2.5' }}
+      - name: Run test
+        run: bundle exec rake
+        env:
+          JRUBY_OPTS: -X+O
