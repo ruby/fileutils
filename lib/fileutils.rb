@@ -211,21 +211,11 @@ module FileUtils
     list.each do |item|
       path = remove_trailing_slash(item)
 
-      # optimize for the most common case
-      begin
-        fu_mkdir path, mode
-        next
-      rescue SystemCallError
-        next if File.directory?(path)
-      end
-
       stack = []
-      until path == stack.last   # dirname("/")=="/", dirname("C:/")=="C:/"
+      until File.directory?(path)
         stack.push path
         path = File.dirname(path)
-        break if File.directory?(path)
       end
-      stack.pop if path == stack.last   # root directory should exist
       stack.reverse_each do |dir|
         begin
           fu_mkdir dir, mode
