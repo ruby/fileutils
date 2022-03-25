@@ -14,7 +14,7 @@ jobs:
           - { os: ubuntu-latest, ruby: 'jruby-head' }
           - { os: ubuntu-latest, ruby: 'jruby-9.2' }
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Ruby ${{ matrix.ruby }}
         uses: ruby/setup-ruby@v1
         with:
