@@ -369,7 +369,7 @@ module FileUtils
   #
   # When +src+ is the path to an existing file
   # and +dest+ is the path to an existing directory,
-  # creates a hard link at <tt>dest/src</tt> pointing to +src+; returns zero:
+  # creates a hard link in +dest+ pointing to +src+; returns zero:
   #
   #   Dir.children('tmp2')               # => ["t.dat"]
   #   Dir.children('tmp3')               # => []
