@@ -379,7 +379,7 @@ module FileUtils
   # When +src+ is an array of paths to existing files
   # and +dest+ is the path to an existing directory,
   # then for each path +target+ in +src+,
-  # creates a hard link at <tt>dest/target</tt> pointing to +target+;
+  # creates a hard link in +dest+ pointing to +target+;
   # returns +src+:
   #
   #   Dir.children('tmp4/')                               # => []
