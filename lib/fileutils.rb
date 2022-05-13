@@ -358,16 +358,16 @@ module FileUtils
   module_function :rmdir
 
   #
-  # When +src+ is the path to an existing file or directory
+  # When +src+ is the path to an existing file
   # and +dest+ is the path to a non-existent file,
   # creates a hard link at +dest+ pointing to +src+; returns zero:
   #
   #   Dir.children('tmp0/')                    # => ["t.txt"]
   #   Dir.children('tmp1/')                    # => []
   #   FileUtils.ln('tmp0/t.txt', 'tmp1/t.lnk') # => 0
-  #   Dir.children('tmp1/') # => ["t.lnk"]
+  #   Dir.children('tmp1/')                    # => ["t.lnk"]
   #
-  # When +src+ is the path to an existing file or directory
+  # When +src+ is the path to an existing file
   # and +dest+ is the path to an existing directory,
   # creates a hard link at <tt>dest/src</tt> pointing to +src+; returns zero:
   #
@@ -376,7 +376,7 @@ module FileUtils
   #   FileUtils.ln('tmp2/t.dat', 'tmp3') # => 0
   #   Dir.children('tmp3')               # => ["t.dat"]
   #
-  # When +src+ is an array of paths to existing files or directories
+  # When +src+ is an array of paths to existing files
   # and +dest+ is the path to an existing directory,
   # then for each path +target+ in +src+,
   # creates a hard link at <tt>dest/target</tt> pointing to +target+;
