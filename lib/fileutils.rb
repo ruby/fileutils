@@ -543,7 +543,9 @@ module FileUtils
   #   FileUtils.ln_s('srcdir3', 'destdir3')
   #   File.symlink?('destdir3/srcdir3') # => true
   #
-  # When +src+ is an array of paths to existing files and +dest+ is a directory:
+  # When +src+ is an array of paths to existing files and +dest+ is a directory,
+  # for each child +child+ in +src+ creates a symbolic link <tt>dest/child</tt>
+  # pointing to +child+:
   #
   #   FileUtils.mkdir('srcdir4')
   #   FileUtils.touch('srcdir4/src0.txt')
@@ -574,8 +576,6 @@ module FileUtils
   #     ln -s srcdir4/src0.txt srcdir4/src1.txt destdir4
   #
   # FileUtils.symlink is an alias for FileUtils.ln_s.
-  #
-  # Raises an exception if +src+ is not the path to a file or directory.
   #
   def ln_s(src, dest, force: nil, noop: nil, verbose: nil)
     fu_output_message "ln -s#{force ? 'f' : ''} #{[src,dest].flatten.join ' '}" if verbose
