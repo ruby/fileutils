@@ -513,32 +513,29 @@ module FileUtils
   #     FileUtils.ln_s('src0.txt', 'dest0.txt')
   #     File.symlink?('dest0.txt') # => true
   #
-  # - When +dest+ is the path to a directory,
-  #   creates a symbolic link at <tt>dest/src</tt> pointing to +src+:
-  #
-  #     FileUtils.touch('src1.txt')
-  #     FileUtils.mkdir('destdir1')
-  #     FileUtils.ln_s('src1.txt', 'destdir1')
-  #     File.symlink?('destdir1/src1.txt') # => true
-  #
   # - When +dest+ is the path to an existing file,
   #   creates a symbolic link at +dest+ pointing to +src+
   #   if and only if keyword argument <tt>force: true</tt> is given
   #   (raises an exception otherwise):
   #
-  #     FileUtils.touch('src2.txt')
-  #     FileUtils.touch('dest2.txt')
-  #     FileUtils.ln_s('src2.txt', 'dest2.txt', force: true)
-  #     FileTest.symlink?('dest2.txt') # => true
+  #     FileUtils.touch('src1.txt')
+  #     FileUtils.touch('dest1.txt')
+  #     FileUtils.ln_s('src1.txt', 'dest1.txt', force: true)
+  #     FileTest.symlink?('dest1.txt') # => true
   #
-  #     FileUtils.ln_s('src2.txt', 'dest2.txt') # Raises Errno::EEXIST.
+  #     FileUtils.ln_s('src1.txt', 'dest1.txt') # Raises Errno::EEXIST.
   #
-  # When +src+ and +dest+ are both paths to directories,
+  # When +dest+ is the path to a directory,
   # creates a symbolic link at <tt>dest/src</tt> pointing to +src+:
   #
+  #   # File src:
+  #   FileUtils.touch('src2.txt')
+  #   FileUtils.mkdir('destdir2')
+  #   FileUtils.ln_s('src2.txt', 'destdir2')
+  #   File.symlink?('destdir2/src2.txt') # => true
+  #
+  #   # Directory src:
   #   FileUtils.mkdir('srcdir3')
-  #   FileUtils.touch('srcdir3/src1.txt')
-  #   FileUtils.touch('srcdir3/src2.txt')
   #   FileUtils.mkdir('destdir3')
   #   FileUtils.ln_s('srcdir3', 'destdir3')
   #   File.symlink?('destdir3/srcdir3') # => true
