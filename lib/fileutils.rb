@@ -528,29 +528,22 @@ module FileUtils
   # When +dest+ is the path to a directory,
   # creates a symbolic link at <tt>dest/src</tt> pointing to +src+:
   #
-  #   # File src:
   #   FileUtils.touch('src2.txt')
   #   FileUtils.mkdir('destdir2')
   #   FileUtils.ln_s('src2.txt', 'destdir2')
   #   File.symlink?('destdir2/src2.txt') # => true
   #
-  #   # Directory src:
-  #   FileUtils.mkdir('srcdir3')
-  #   FileUtils.mkdir('destdir3')
-  #   FileUtils.ln_s('srcdir3', 'destdir3')
-  #   File.symlink?('destdir3/srcdir3') # => true
-  #
   # When +src+ is an array of paths to existing files and +dest+ is a directory,
   # for each child +child+ in +src+ creates a symbolic link <tt>dest/child</tt>
   # pointing to +child+:
   #
-  #   FileUtils.mkdir('srcdir4')
-  #   FileUtils.touch('srcdir4/src0.txt')
-  #   FileUtils.touch('srcdir4/src1.txt')
-  #   FileUtils.mkdir('destdir4')
-  #   FileUtils.ln_s(['srcdir4/src0.txt', 'srcdir4/src1.txt'], 'destdir4')
-  #   File.symlink?('destdir4/src0.txt') # => true
-  #   File.symlink?('destdir4/src1.txt') # => true
+  #   FileUtils.mkdir('srcdir3')
+  #   FileUtils.touch('srcdir3/src0.txt')
+  #   FileUtils.touch('srcdir3/src1.txt')
+  #   FileUtils.mkdir('destdir3')
+  #   FileUtils.ln_s(['srcdir3/src0.txt', 'srcdir3/src1.txt'], 'destdir3')
+  #   File.symlink?('destdir3/src0.txt') # => true
+  #   File.symlink?('destdir3/src1.txt') # => true
   #
   # Keyword arguments:
   #
@@ -561,16 +554,14 @@ module FileUtils
   #     FileUtils.ln_s('src0.txt', 'dest0.txt', noop: true, verbose: true)
   #     FileUtils.ln_s('src1.txt', 'destdir1', noop: true, verbose: true)
   #     FileUtils.ln_s('src2.txt', 'dest2.txt', force: true, noop: true, verbose: true)
-  #     FileUtils.ln_s('srcdir3', 'destdir3', noop: true, verbose: true)
-  #     FileUtils.ln_s(['srcdir4/src0.txt', 'srcdir4/src1.txt'], 'destdir4', noop: true, verbose: true)
+  #     FileUtils.ln_s(['srcdir3/src0.txt', 'srcdir3/src1.txt'], 'destdir3', noop: true, verbose: true)
   #
   #   Output:
   #
   #     ln -s src0.txt dest0.txt
   #     ln -s src1.txt destdir1
   #     ln -sf src2.txt dest2.txt
-  #     ln -s srcdir3 destdir3
-  #     ln -s srcdir4/src0.txt srcdir4/src1.txt destdir4
+  #     ln -s srcdir3/src0.txt srcdir3/src1.txt destdir3
   #
   # FileUtils.symlink is an alias for FileUtils.ln_s.
   #
