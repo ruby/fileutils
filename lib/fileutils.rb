@@ -631,11 +631,10 @@ module FileUtils
   end
   module_function :link_entry
 
-  # Copies files from +src+ to +dest+;
-  # +src+ may not be the path to a directory
-  # and +dest+ may not be the path to a file.
+  # Copies files from +src+ to +dest+.
   #
-  # If +src+ is the path to a file and +dest+ does not exist, copies +src+ to +dest+:
+  # If +src+ is the path to a file and +dest+ is not the path to a directory,
+  # copies +src+ to +dest+:
   #
   #   FileUtils.touch('src0.txt')
   #   File.exist?('dest0.txt') # => false
@@ -675,6 +674,8 @@ module FileUtils
   #     cp src0.txt dest0.txt
   #     cp src1.txt dest1
   #     cp src2.txt src2.dat dest2
+  #
+  # Raises an exception if +src+ is a directory.
   #
   # FileUtils.copy is an alias for FileUtils.cp.
   #
