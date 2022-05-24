@@ -693,7 +693,7 @@ module FileUtils
   alias copy cp
   module_function :copy
 
-  # Copies files from +src+ to +dest+.
+  # Recursively copies files from +src+ to +dest+.
   #
   #
   # If +src+ is the path to a file and +dest+ is not the path to a directory,
@@ -705,7 +705,7 @@ module FileUtils
   #   File.exist?('dest0.txt') # => true
   #
   # If +src+ is the path to a file and +dest+ is the path to a directory,
-  # copies +src+ to +dest+:
+  # copies +src+ to <tt>dest/src</tt>:
   #
   #   FileUtils.touch('src1.txt')
   #   FileUtils.mkdir('dest1')
