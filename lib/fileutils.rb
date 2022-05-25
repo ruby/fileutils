@@ -788,23 +788,25 @@ module FileUtils
   #
   # If +src+ is a directory, recursively copies +src+ to +dest+:
   #
-  #   system('tree src1')
-  #   src1/
-  #   ├── dir0/
-  #   │   ├── src0.txt
-  #   │   └── src1.txt
-  #   └── dir1/
-  #       ├── src2.txt
-  #       └── src3.txt
+  #   src1
+  #   |-- dir0
+  #   |   |-- src0.txt
+  #   |   `-- src1.txt
+  #   `-- dir1
+  #       |-- src2.txt
+  #       `-- src3.txt
   #   FileUtils.copy_entry('src1', 'dest1')
-  #   system('tree dest1')
-  #   dest1/
-  #   ├── dir0/
-  #   │   ├── src0.txt
-  #   │   └── src1.txt
-  #   └── dir1/
-  #       ├── src2.txt
-  #       └── src3.txt
+  #   dest1
+  #   |-- dir0
+  #   |   |-- src0.txt
+  #   |   `-- src1.txt
+  #   `-- dir1
+  #       |-- src2.txt
+  #       `-- src3.txt
+  #
+  # The recursive copying preserves file types for regular files,
+  # directories, and symbolic links;
+  # other file types (FIFO streams, device files, etc.) are not supported.
   #
   # Keyword arguments:
   #
