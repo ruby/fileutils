@@ -788,17 +788,23 @@ module FileUtils
   #
   # If +src+ is a directory, recursively copies +src+ to +dest+:
   #
-  #   FileUtils.mkdir_p(['src1/dir0', 'src1/dir1'])
-  #   FileUtils.touch('src1/dir0/src0.txt')
-  #   FileUtils.touch('src1/dir0/src1.txt')
-  #   FileUtils.touch('src1/dir1/src2.txt')
-  #   FileUtils.touch('src1/dir1/src3.txt')
-  #   File.exist?('dest1') # => false
+  #   system('tree src1')
+  #   src1/
+  #   ├── dir0/
+  #   │   ├── src0.txt
+  #   │   └── src1.txt
+  #   └── dir1/
+  #       ├── src2.txt
+  #       └── src3.txt
   #   FileUtils.copy_entry('src1', 'dest1')
-  #   File.file?('dest1/dir0/src0.txt') # => true
-  #   File.file?('dest1/dir0/src1.txt') # => true
-  #   File.file?('dest1/dir1/src2.txt') # => true
-  #   File.file?('dest1/dir1/src3.txt') # => true
+  #   system('tree dest1')
+  #   dest1/
+  #   ├── dir0/
+  #   │   ├── src0.txt
+  #   │   └── src1.txt
+  #   └── dir1/
+  #       ├── src2.txt
+  #       └── src3.txt
   #
   # Keyword arguments:
   #
