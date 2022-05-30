@@ -898,13 +898,15 @@ module FileUtils
   #   |   `-- src.txt
   #   `-- src1.txt
   #
+  # Keyword arguments:
+  #
   # - <tt>force: true</tt> - attempts to force the move;
   #   if the move includes removing +src+
   #   (that is, if +src+ and +dest+ are on different devices),
   #   ignores raised exceptions of StandardError and its descendants.
   # - <tt>noop: true</tt> - does not move files.
-  # - <tt>secure: true</tt> - removes +src+ securely
-  #   by calling FileUtils.remove_entry_secure.
+  # - <tt>secure: true</tt> - removes +src+ securely;
+  #   see details at FileUtils.remove_entry_secure.
   # - <tt>verbose: true</tt> - prints an equivalent command:
   #
   #     FileUtils.mv('src0', 'dest0', noop: true, verbose: true)
@@ -949,13 +951,27 @@ module FileUtils
   alias move mv
   module_function :move
 
+  # Removes entries at the paths given in array +list+; returns +list+.
   #
-  # Remove file(s) specified in +list+.  This method cannot remove directories.
-  # All StandardErrors are ignored when the :force option is set.
+  # With no keyword arguments, returns files at the paths given in +list+:
   #
-  #   FileUtils.rm %w( junk.txt dust.txt )
-  #   FileUtils.rm Dir.glob('*.so')
-  #   FileUtils.rm 'NotExistFile', force: true   # never raises exception
+  #   FileUtils.touch(['src0.txt', 'src0.dat'])
+  #   FileUtils.rm(['src0.dat', 'src0.txt']) # => ["src0.dat", "src0.txt"]
+  #
+  # Keyword arguments:
+  #
+  # - <tt>force: true</tt> - attempts to remove files regardless of permissions;
+  #   ignores raised exceptions of StandardError and its descendants:
+  # - <tt>noop: true</tt> - does not remove files.
+  # - <tt>verbose: true</tt> - prints an equivalent command:
+  #
+  #     FileUtils.rm(['src0.dat', 'src0.txt'], noop: true, verbose: true)
+  #
+  #   Output:
+  #
+  #     rm src0.dat src0.txt
+  #
+  # FileUtils.remove is an alias for FileUtils.rm.
   #
   def rm(list, force: nil, noop: nil, verbose: nil)
     list = fu_list(list)
@@ -971,10 +987,13 @@ module FileUtils
   alias remove rm
   module_function :remove
 
+  # Equivalent to:
   #
-  # Equivalent to
+  #   FileUtils.rm(list, force: true, **kwargs)
   #
-  #   FileUtils.rm(list, force: true)
+  # See FileUtils.rm for keyword arguments +noop+ and +verbose+.
+  #
+  # FileUtils.safe_unlink is an alias for FileUtils.rm_f.
   #
   def rm_f(list, noop: nil, verbose: nil)
     rm list, force: true, noop: noop, verbose: verbose
@@ -984,24 +1003,45 @@ module FileUtils
   alias safe_unlink rm_f
   module_function :safe_unlink
 
+  # Removes files and directories at the paths given in array +list+;
+  # returns +list+.
   #
-  # remove files +list+[0] +list+[1]... If +list+[n] is a directory,
-  # removes its all contents recursively. This method ignores
-  # StandardError when :force option is set.
+  # For each file path, removes the file at that path:
   #
-  #   FileUtils.rm_r Dir.glob('/tmp/*')
-  #   FileUtils.rm_r 'some_dir', force: true
+  #   FileUtils.touch(['src0.txt', 'src0.dat'])
+  #   FileUtils.rm_r(['src0.dat', 'src0.txt'])
+  #   File.exist?('src0.txt') # => false
+  #   File.exist?('src0.dat') # => false
   #
-  # WARNING: This method causes local vulnerability
-  # if one of parent directories or removing directory tree are world
-  # writable (including /tmp, whose permission is 1777), and the current
-  # process has strong privilege such as Unix super user (root), and the
-  # system has symbolic link.  For secure removing, read the documentation
-  # of remove_entry_secure carefully, and set :secure option to true.
-  # Default is <tt>secure: false</tt>.
+  # For each directory path, recursively removes files and directories:
   #
-  # NOTE: This method calls remove_entry_secure if :secure option is set.
-  # See also remove_entry_secure.
+  #   system('tree --charset=ascii src1')
+  #   src1
+  #   |-- dir0
+  #   |   |-- src0.txt
+  #   |   `-- src1.txt
+  #   `-- dir1
+  #       |-- src2.txt
+  #       `-- src3.txt
+  #   FileUtils.rm_r('src1')
+  #   File.exist?('src1') # => false
+  #
+  # Keyword arguments:
+  #
+  # - <tt>force: true</tt> - attempts to remove entries regardless of permissions;
+  #   ignores raised exceptions of StandardError and its descendants:
+  # - <tt>noop: true</tt> - does not remove entries.
+  # - <tt>secure: true</tt> - removes +src+ securely;
+  #   see details at FileUtils.remove_entry_secure.
+  # - <tt>verbose: true</tt> - prints an equivalent command:
+  #
+  #     FileUtils.rm_r(['src0.dat', 'src0.txt'], noop: true, verbose: true)
+  #     FileUtils.rm_r('src1', noop: true, verbose: true)
+  #
+  #   Output:
+  #
+  #     rm -r src0.dat src0.txt
+  #     rm -r src1
   #
   def rm_r(list, force: nil, noop: nil, verbose: nil, secure: nil)
     list = fu_list(list)
@@ -1017,13 +1057,15 @@ module FileUtils
   end
   module_function :rm_r
 
+  # Equivalent to:
   #
-  # Equivalent to
+  #   FileUtils.rm_r(list, force: true, **kwargs)
   #
-  #   FileUtils.rm_r(list, force: true)
+  # See FileUtils.rm_r for keyword arguments +noop+ and +verbose+,
+  # and especially for keyword argument +secure+,
+  # which relates to security and vulnerability.
   #
-  # WARNING: This method causes local vulnerability.
-  # Read the documentation of rm_r first.
+  # FileUtils.rmtree is an alias for FileUtils.rm_rf.
   #
   def rm_rf(list, noop: nil, verbose: nil, secure: nil)
     rm_r list, force: true, noop: noop, verbose: verbose, secure: secure
@@ -1033,21 +1075,29 @@ module FileUtils
   alias rmtree rm_rf
   module_function :rmtree
 
+  # Securely removes the entry given by +path+,
+  # which should be the entry for a regular file, a symbolic link,
+  # or a directory.
   #
-  # This method removes a file system entry +path+.  +path+ shall be a
-  # regular file, a directory, or something.  If +path+ is a directory,
-  # remove it recursively.  This method is required to avoid TOCTTOU
-  # (time-of-check-to-time-of-use) local security vulnerability of rm_r.
-  # #rm_r causes security hole when:
+  # Here, "securely" means "avoiding
+  # {Time-of-check to time-of-use}[https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use]
+  # vulnerabilities", which can exist when:
   #
-  # * Parent directory is world writable (including /tmp).
-  # * Removing directory tree includes world writable directory.
-  # * The system has symbolic link.
+  # - An ancestor directory of the entry at +path+ is world writable;
+  #   such directories include <tt>/tmp</tt>.
+  # - The directory tree at +path+ includes:
   #
-  # To avoid this security hole, this method applies special preprocess.
-  # If +path+ is a directory, this method chown(2) and chmod(2) all
-  # removing directories.  This requires the current process is the
-  # owner of the removing whole directory tree, or is the super user (root).
+  #   - A world-writable descendant directory.
+  #   - A symbolic link.
+  #
+  # To avoid such a vulnerability, this method applies a special pre-process:
+  #
+  # - If +path+ is a directory, this method uses
+  #   {chown(2)}[https://man7.org/linux/man-pages/man2/chown.2.html]
+  #   and {chmod(2)}[https://man7.org/linux/man-pages/man2/chmod.2.html]
+  #   in removing directories.
+  # - The owner of +path+ should be either the current proces
+  #   or the super user (root).
   #
   # WARNING: You must ensure that *ALL* parent directories cannot be
   # moved by other untrusted users.  For example, parent directories
@@ -1058,12 +1108,10 @@ module FileUtils
   # user (root) should invoke this method.  Otherwise this method does not
   # work.
   #
-  # For details of this security vulnerability, see Perl's case:
+  # For details of this security vulnerability, see Perl cases:
   #
-  # * https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-0448
-  # * https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2004-0452
-  #
-  # For fileutils.rb, this vulnerability is reported in [ruby-dev:26100].
+  # - {CVE-2005-0448}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-0448].
+  # - {CVE-2004-0452}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2004-0452].
   #
   def remove_entry_secure(path, force = false)
     unless fu_have_symlink?
