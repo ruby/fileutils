@@ -833,7 +833,7 @@ module FileUtils
   end
   module_function :copy_entry
 
-  # Copies file from +src+ to +dest+, which may not be directories:
+  # Copies file from +src+ to +dest+, which should not be directories:
   #
   #   FileUtils.touch('src0.txt')
   #   FileUtils.copy_file('src0.txt', 'dest0.txt')
@@ -874,7 +874,7 @@ module FileUtils
   #   `-- src1.txt
   #   File.exist?('dest0') # => false
   #   FileUtils.mv('src0', 'dest0')
-  #   File.exist?('src0')  # # => false
+  #   File.exist?('src0')  # => false
   #   system('tree --charset=ascii dest0')
   #   dest0
   #   |-- src0.txt
@@ -882,24 +882,23 @@ module FileUtils
   #
   # If +src+ is an array of paths to files and directories
   # and +dest+ is the path to a directory,
-  # copies from each path in the array to th
+  # copies from each path in the array to +dest+:
   #
   #   File.file?('src1.txt') # => true
   #   system('tree --charset=ascii src1')
   #   src1
-  #   |-- src1.dat
-  #   `-- src1.txt
+  #   |-- src.dat
+  #   `-- src.txt
   #   Dir.empty?('dest1') # => true
   #   FileUtils.mv(['src1.txt', 'src1'], 'dest1')
   #   system('tree --charset=ascii dest1')
   #   dest1
   #   |-- src1
-  #   |   |-- src1.dat
-  #   |   `-- src1.txt
+  #   |   |-- src.dat
+  #   |   `-- src.txt
   #   `-- src1.txt
   #
-  # - <tt>force: true</tt> - attempts to force the move
-  #   even if +dest+ is inappropriate;
+  # - <tt>force: true</tt> - attempts to force the move;
   #   if the move includes removing +src+
   #   (that is, if +src+ and +dest+ are on different devices),
   #   ignores raised exceptions of StandardError and its descendants.
