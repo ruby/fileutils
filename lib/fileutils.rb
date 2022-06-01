@@ -951,9 +951,10 @@ module FileUtils
   alias move mv
   module_function :move
 
-  # Removes entries at the paths given in array +list+; returns +list+.
+  # Removes entries at the paths given in +list+,
+  # which should be a string path or an array of string paths; returns +list+.
   #
-  # With no keyword arguments, returns files at the paths given in +list+:
+  # With no keyword arguments, removes files at the paths given in +list+:
   #
   #   FileUtils.touch(['src0.txt', 'src0.dat'])
   #   FileUtils.rm(['src0.dat', 'src0.txt']) # => ["src0.dat", "src0.txt"]
@@ -961,8 +962,8 @@ module FileUtils
   # Keyword arguments:
   #
   # - <tt>force: true</tt> - attempts to remove files regardless of permissions;
-  #   ignores raised exceptions of StandardError and its descendants:
-  # - <tt>noop: true</tt> - does not remove files.
+  #   ignores raised exceptions of StandardError and its descendants.
+  # - <tt>noop: true</tt> - does not remove files; returns +nil+.
   # - <tt>verbose: true</tt> - prints an equivalent command:
   #
   #     FileUtils.rm(['src0.dat', 'src0.txt'], noop: true, verbose: true)
@@ -991,7 +992,7 @@ module FileUtils
   #
   #   FileUtils.rm(list, force: true, **kwargs)
   #
-  # See FileUtils.rm for keyword arguments +noop+ and +verbose+.
+  # See FileUtils.rm for keyword arguments.
   #
   # FileUtils.safe_unlink is an alias for FileUtils.rm_f.
   #
@@ -1005,6 +1006,9 @@ module FileUtils
 
   # Removes files and directories at the paths given in array +list+;
   # returns +list+.
+  #
+  # May cause a local vulnerability if not called with keyword argument
+  # <tt>secure: true</tt>.
   #
   # For each file path, removes the file at that path:
   #
@@ -1029,7 +1033,7 @@ module FileUtils
   # Keyword arguments:
   #
   # - <tt>force: true</tt> - attempts to remove entries regardless of permissions;
-  #   ignores raised exceptions of StandardError and its descendants:
+  #   ignores raised exceptions of StandardError and its descendants.
   # - <tt>noop: true</tt> - does not remove entries.
   # - <tt>secure: true</tt> - removes +src+ securely;
   #   see details at FileUtils.remove_entry_secure.
@@ -1061,9 +1065,10 @@ module FileUtils
   #
   #   FileUtils.rm_r(list, force: true, **kwargs)
   #
-  # See FileUtils.rm_r for keyword arguments +noop+ and +verbose+,
-  # and especially for keyword argument +secure+,
-  # which relates to security and vulnerability.
+  # May cause a local vulnerability if not called with keyword argument
+  # <tt>secure: true</tt>.
+  #
+  # See FileUtils.rm_r for keyword arguments.
   #
   # FileUtils.rmtree is an alias for FileUtils.rm_rf.
   #
