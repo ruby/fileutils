@@ -1034,7 +1034,7 @@ module FileUtils
   #
   # - <tt>force: true</tt> - attempts to remove entries regardless of permissions;
   #   ignores raised exceptions of StandardError and its descendants.
-  # - <tt>noop: true</tt> - does not remove entries.
+  # - <tt>noop: true</tt> - does not remove entries; returns +nil+.
   # - <tt>secure: true</tt> - removes +src+ securely;
   #   see details at FileUtils.remove_entry_secure.
   # - <tt>verbose: true</tt> - prints an equivalent command:
