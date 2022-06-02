@@ -197,7 +197,7 @@ module FileUtils
   #
   # Creates directories at the paths in the given +list+
   # (an array of strings or a single string);
-  # returns +list+.
+  # returns +list+ if it is an array, <tt>[list]</tt> otherwise.
   #
   # With no keyword arguments, creates a directory at each +path+ in +list+
   # by calling: <tt>Dir.mkdir(path, mode)</tt>;
@@ -239,7 +239,7 @@ module FileUtils
   # Creates directories at the paths in the given +list+
   # (an array of strings or a single string),
   # also creating ancestor directories as needed;
-  # returns +list+.
+  # returns +list+ if it is an array, <tt>[list]</tt> otherwise.
   #
   # With no keyword arguments, creates a directory at each +path+ in +list+,
   # along with any needed ancestor directories,
@@ -949,8 +949,9 @@ module FileUtils
   alias move mv
   module_function :move
 
-  # Removes entries at the paths given in +list+,
-  # which should be a string path or an array of string paths; returns +list+.
+  # Removes entries at the paths in the given +list+
+  # (an array of strings or a single string);
+  # returns +list+, if it is an array, <tt>[list]</tt> otherwise.
   #
   # With no keyword arguments, removes files at the paths given in +list+:
   #
@@ -1002,8 +1003,9 @@ module FileUtils
   alias safe_unlink rm_f
   module_function :safe_unlink
 
-  # Removes files and directories at the paths given in array +list+;
-  # returns +list+.
+  # Removes entries at the paths in the given +list+
+  # (an array of strings or a single string);
+  # returns +list+, if it is an array, <tt>[list]</tt> otherwise.
   #
   # May cause a local vulnerability if not called with keyword argument
   # <tt>secure: true</tt>.
