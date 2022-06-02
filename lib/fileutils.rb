@@ -311,7 +311,7 @@ module FileUtils
   #
   # Removes directories at the paths in the given +list+
   # (an array of strings or a single string);
-  # returns +list+.
+  # returns +list+, if it is an array, <tt>[list]</tt> otherwise.
   #
   # With no keyword arguments, removes the directory at each +path+ in +list+,
   # by calling: <tt>Dir.rmdir(path)</tt>;
@@ -900,10 +900,8 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>force: true</tt> - attempts to force the move;
-  #   if the move includes removing +src+
-  #   (that is, if +src+ and +dest+ are on different devices),
-  #   ignores raised exceptions of StandardError and its descendants.
+  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
+  #   and its descendants.
   # - <tt>noop: true</tt> - does not move files.
   # - <tt>secure: true</tt> - removes +src+ securely;
   #   see details at FileUtils.remove_entry_secure.
@@ -961,8 +959,8 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>force: true</tt> - attempts to remove files regardless of permissions;
-  #   ignores raised exceptions of StandardError and its descendants.
+  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
+  #   and its descendants.
   # - <tt>noop: true</tt> - does not remove files; returns +nil+.
   # - <tt>verbose: true</tt> - prints an equivalent command:
   #
@@ -1101,7 +1099,7 @@ module FileUtils
   #   {chown(2)}[https://man7.org/linux/man-pages/man2/chown.2.html]
   #   and {chmod(2)}[https://man7.org/linux/man-pages/man2/chmod.2.html]
   #   in removing directories.
-  # - The owner of +path+ should be either the current proces
+  # - The owner of +path+ should be either the current process
   #   or the super user (root).
   #
   # WARNING: You must ensure that *ALL* parent directories cannot be
