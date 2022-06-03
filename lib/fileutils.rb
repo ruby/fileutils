@@ -101,6 +101,61 @@ end
 # files/directories.  This equates to passing the <tt>:noop</tt> and
 # <tt>:verbose</tt> flags to methods in FileUtils.
 #
+# == Avoiding the TOCTTOU Vulnerability
+#
+# For certain methods that recursively remove entries,
+# there is a potential vulnerability called the
+# {Time-of-check to time-of-use}[https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use],
+# or TOCTTOU, vulnerability that can exist when:
+#
+# - An ancestor directory of the entry at the target path is world writable;
+#   such directories include <tt>/tmp</tt>.
+# - The directory tree at the target path includes:
+#
+#   - A world-writable descendant directory.
+#   - A symbolic link.
+#
+# To avoid that vulnerability, you can use this method to remove entries:
+#
+# - FileUtils.remove_entry_secure: removes recursively
+#   if the target path points to a directory.
+#
+# Also available are these methods,
+# each of which calls \FileUtils.remove_entry_secure:
+#
+# - FileUtils.rm_r with keyword argument <tt>secure: true</tt>.
+# - FileUtils.rm_rf with keyword argument <tt>secure: true</tt>.
+#
+# Finally, this method for moving entries calls \FileUtils.remove_entry_secure
+# if the source and destination are on different devices
+# (which means that the "move" is really a copy and remove):
+#
+# - FileUtils.mv  with keyword argument <tt>secure: true</tt>.
+#
+# \Method \FileUtils.remove_entry_secure remove securely
+# by applying a special pre-process:
+#
+# - If the target path points to a directory, this method uses
+#   {chown(2)}[https://man7.org/linux/man-pages/man2/chown.2.html]
+#   and {chmod(2)}[https://man7.org/linux/man-pages/man2/chmod.2.html]
+#   in removing directories.
+# - The owner of the target directory should be either the current process
+#   or the super user (root).
+#
+# WARNING: You must ensure that *ALL* parent directories cannot be
+# moved by other untrusted users.  For example, parent directories
+# should not be owned by untrusted users, and should not be world
+# writable except when the sticky bit set.
+#
+# WARNING: Only the owner of the removing directory tree, or Unix super
+# user (root) should invoke this method.  Otherwise this method does not
+# work.
+#
+# For details of this security vulnerability, see Perl cases:
+#
+# - {CVE-2005-0448}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-0448].
+# - {CVE-2004-0452}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2004-0452].
+#
 module FileUtils
   VERSION = "1.6.0"
 
@@ -865,6 +920,10 @@ module FileUtils
   # If +src+ and +dest+ are on different devices,
   # first copies, then removes +src+.
   #
+  # May cause a local vulnerability if not called with keyword argument
+  # <tt>secure: true</tt>;
+  # see {Avoiding the TOCTTOU Vulnerability}[rdoc-ref:FileUtils@Avoiding+the+TOCTTOU+Vulnerability].
+  #
   # If +src+ is the path to a single file or directory and +dest+ does not exist,
   # moves +src+ to +dest+:
   #
@@ -1008,7 +1067,8 @@ module FileUtils
   # returns +list+, if it is an array, <tt>[list]</tt> otherwise.
   #
   # May cause a local vulnerability if not called with keyword argument
-  # <tt>secure: true</tt>.
+  # <tt>secure: true</tt>;
+  # see {Avoiding the TOCTTOU Vulnerability}[rdoc-ref:FileUtils@Avoiding+the+TOCTTOU+Vulnerability].
   #
   # For each file path, removes the file at that path:
   #
@@ -1032,8 +1092,8 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>force: true</tt> - attempts to remove entries regardless of permissions;
-  #   ignores raised exceptions of StandardError and its descendants.
+  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
+  #   and its descendants.
   # - <tt>noop: true</tt> - does not remove entries; returns +nil+.
   # - <tt>secure: true</tt> - removes +src+ securely;
   #   see details at FileUtils.remove_entry_secure.
@@ -1066,7 +1126,8 @@ module FileUtils
   #   FileUtils.rm_r(list, force: true, **kwargs)
   #
   # May cause a local vulnerability if not called with keyword argument
-  # <tt>secure: true</tt>.
+  # <tt>secure: true</tt>;
+  # see {Avoiding the TOCTTOU Vulnerability}[rdoc-ref:FileUtils@Avoiding+the+TOCTTOU+Vulnerability].
   #
   # See FileUtils.rm_r for keyword arguments.
   #
@@ -1084,39 +1145,8 @@ module FileUtils
   # which should be the entry for a regular file, a symbolic link,
   # or a directory.
   #
-  # Here, "securely" means "avoiding
-  # {Time-of-check to time-of-use}[https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use]
-  # vulnerabilities", which can exist when:
-  #
-  # - An ancestor directory of the entry at +path+ is world writable;
-  #   such directories include <tt>/tmp</tt>.
-  # - The directory tree at +path+ includes:
-  #
-  #   - A world-writable descendant directory.
-  #   - A symbolic link.
-  #
-  # To avoid such a vulnerability, this method applies a special pre-process:
-  #
-  # - If +path+ is a directory, this method uses
-  #   {chown(2)}[https://man7.org/linux/man-pages/man2/chown.2.html]
-  #   and {chmod(2)}[https://man7.org/linux/man-pages/man2/chmod.2.html]
-  #   in removing directories.
-  # - The owner of +path+ should be either the current process
-  #   or the super user (root).
-  #
-  # WARNING: You must ensure that *ALL* parent directories cannot be
-  # moved by other untrusted users.  For example, parent directories
-  # should not be owned by untrusted users, and should not be world
-  # writable except when the sticky bit set.
-  #
-  # WARNING: Only the owner of the removing directory tree, or Unix super
-  # user (root) should invoke this method.  Otherwise this method does not
-  # work.
-  #
-  # For details of this security vulnerability, see Perl cases:
-  #
-  # - {CVE-2005-0448}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-0448].
-  # - {CVE-2004-0452}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2004-0452].
+  # Avoids a local vulnerability that can exist in certain circumstances;
+  # see {Avoiding the TOCTTOU Vulnerability}[rdoc-ref:FileUtils@Avoiding+the+TOCTTOU+Vulnerability].
   #
   def remove_entry_secure(path, force = false)
     unless fu_have_symlink?
