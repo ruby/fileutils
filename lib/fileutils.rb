@@ -130,7 +130,7 @@ end
 # if the source and destination are on different devices
 # (which means that the "move" is really a copy and remove):
 #
-# - FileUtils.mv `with keyword argument <tt>secure: true</tt>.
+# - FileUtils.mv with keyword argument <tt>secure: true</tt>.
 #
 # \Method \FileUtils.remove_entry_secure removes securely
 # by applying a special pre-process:
