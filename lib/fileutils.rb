@@ -130,9 +130,9 @@ end
 # if the source and destination are on different devices
 # (which means that the "move" is really a copy and remove):
 #
-# - FileUtils.mv  with keyword argument <tt>secure: true</tt>.
+# - FileUtils.mv `with keyword argument <tt>secure: true</tt>.
 #
-# \Method \FileUtils.remove_entry_secure remove securely
+# \Method \FileUtils.remove_entry_secure removes securely
 # by applying a special pre-process:
 #
 # - If the target path points to a directory, this method uses
@@ -145,11 +145,7 @@ end
 # WARNING: You must ensure that *ALL* parent directories cannot be
 # moved by other untrusted users.  For example, parent directories
 # should not be owned by untrusted users, and should not be world
-# writable except when the sticky bit set.
-#
-# WARNING: Only the owner of the removing directory tree, or Unix super
-# user (root) should invoke this method.  Otherwise this method does not
-# work.
+# writable except when the sticky bit is set.
 #
 # For details of this security vulnerability, see Perl cases:
 #
