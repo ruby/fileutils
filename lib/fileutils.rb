@@ -955,8 +955,9 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
-  #   and its descendants.
+  # - <tt>force: true</tt> - if the move includes removing +src+
+  #   (that is, if +src+ and +dest+ are on different devices),
+  #   ignores raised exceptions of StandardError and its descendants.
   # - <tt>noop: true</tt> - does not move files.
   # - <tt>secure: true</tt> - removes +src+ securely;
   #   see details at FileUtils.remove_entry_secure.
