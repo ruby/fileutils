@@ -23,7 +23,6 @@ jobs:
           - { os: macos-latest, ruby: 'head' }
           - { os: macos-latest, ruby: 'jruby-head' }
           - { os: windows-latest, ruby: 'head' }
-          - { os: windows-latest, ruby: 'jruby-head' }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
