@@ -18,9 +18,12 @@ jobs:
     strategy:
       matrix:
         ruby: ${{ fromJson(needs.ruby-versions.outputs.versions) }}
-        os: [ 'ubuntu-latest', 'windows-latest' ]
+        os: [ 'ubuntu-latest' ]
         include:
-          - { os: macos-latest, ruby: '2.6' }
+          - { os: macos-latest, ruby: 'head' }
+          - { os: macos-latest, ruby: 'jruby-head' }
+          - { os: windows-latest, ruby: 'head' }
+          - { os: windows-latest, ruby: 'jruby-head' }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
