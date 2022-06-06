@@ -22,6 +22,7 @@ jobs:
         include:
           - { os: macos-latest, ruby: 'head' }
           - { os: macos-latest, ruby: 'jruby-head' }
+          - { os: macos-latest, ruby: 'truffleruby-head' }
           - { os: windows-latest, ruby: 'head' }
     runs-on: ${{ matrix.os }}
     steps:
