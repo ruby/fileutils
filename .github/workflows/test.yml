@@ -3,16 +3,28 @@ name: Test
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  ruby-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.versions.outputs.value }}
+    steps:
+      - id: versions
+        run: |
+          versions=$(curl -s 'https://cache.ruby-lang.org/pub/misc/ci_versions/all.json' | jq -c '. + ["2.5"]')
+          echo "::set-output name=value::${versions}"
+  test:
+    needs: ruby-versions
+    name: build (${{ matrix.ruby }} / ${{ matrix.os }})
     strategy:
       matrix:
-        ruby: [ 'head', '3.0', '2.7', '2.6', '2.5' ]
-        os: [ 'ubuntu-latest', 'windows-latest' ]
+        ruby: ${{ fromJson(needs.ruby-versions.outputs.versions) }}
+        os: [ 'ubuntu-latest' ]
         include:
-          - { os: macos-latest, ruby: '2.6' }
-          - { os: ubuntu-latest, ruby: 'jruby-head' }
-          - { os: ubuntu-latest, ruby: 'jruby-9.2' }
+          - { os: macos-latest, ruby: 'head' }
+          - { os: macos-latest, ruby: 'jruby-head' }
+          - { os: macos-latest, ruby: 'truffleruby-head' }
+          - { os: windows-latest, ruby: 'head' }
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby ${{ matrix.ruby }}
