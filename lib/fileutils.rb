@@ -1305,10 +1305,8 @@ module FileUtils
   # which should be the entry for a regular file, a symbolic link,
   # or a directory.
   #
-  # Keyword arguments:
-  #
-  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
-  #   and its descendants.
+  # Optional argument +force+ specifies whether to ignore
+  # raised exceptions of StandardError and its descendants.
   #
   def remove_dir(path, force = false)
     remove_entry path, force   # FIXME?? check if it is a directory
