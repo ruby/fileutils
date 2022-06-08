@@ -291,7 +291,7 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>mode: <i>integer</i></tt> - also calls <tt>File.chmod(mode, path)</tt>;
+  # - <tt>mode: <i>mode</i></tt> - also calls <tt>File.chmod(mode, path)</tt>;
   #   see {File.chmod}[https://docs.ruby-lang.org/en/master/File.html#method-c-chmod].
   # - <tt>noop: true</tt> - does not create directories.
   # - <tt>verbose: true</tt> - prints an equivalent command:
@@ -334,7 +334,7 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>mode: <i>integer</i></tt> - also calls <tt>File.chmod(mode, path)</tt>;
+  # - <tt>mode: <i>mode</i></tt> - also calls <tt>File.chmod(mode, path)</tt>;
   #   see {File.chmod}[https://docs.ruby-lang.org/en/master/File.html#method-c-chmod].
   # - <tt>noop: true</tt> - does not create directories.
   # - <tt>verbose: true</tt> - prints an equivalent command:
@@ -1177,10 +1177,8 @@ module FileUtils
   # Avoids a local vulnerability that can exist in certain circumstances;
   # see {Avoiding the TOCTTOU Vulnerability}[rdoc-ref:FileUtils@Avoiding+the+TOCTTOU+Vulnerability].
   #
-  # Keyword arguments:
-  #
-  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
-  #   and its descendants.
+  # Optional argument +force+ specifies whether to ignore
+  # raised exceptions of StandardError and its descendants.
   #
   def remove_entry_secure(path, force = false)
     unless fu_have_symlink?
@@ -1272,10 +1270,8 @@ module FileUtils
   # which should be the entry for a regular file, a symbolic link,
   # or a directory.
   #
-  # Keyword arguments:
-  #
-  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
-  #   and its descendants.
+  # Optional argument +force+ specifies whether to ignore
+  # raised exceptions of StandardError and its descendants.
   #
   # Related: FileUtils.remove_entry_secure.
   #
@@ -1293,13 +1289,10 @@ module FileUtils
   module_function :remove_entry
 
   # Removes the file entry given by +path+,
-  # which should be the entry for a regular file, a symbolic link,
-  # or a directory.
+  # which should be the entry for a regular file or a symbolic link.
   #
-  # Keyword arguments:
-  #
-  # - <tt>force: true</tt> - ignores raised exceptions of StandardError
-  #   and its descendants.
+  # Optional argument +force+ specifies whether to ignore
+  # raised exceptions of StandardError and its descendants.
   #
   def remove_file(path, force = false)
     Entry_.new(path).remove_file
@@ -1322,7 +1315,7 @@ module FileUtils
   end
   module_function :remove_dir
 
-  # Returns +true+ if the contents of files +a+ and a file +b+ are identical,
+  # Returns +true+ if the contents of files +a+ and +b+ are identical,
   # +false+ otherwise.
   #
   def compare_file(a, b)
@@ -1340,7 +1333,7 @@ module FileUtils
   module_function :identical?
   module_function :cmp
 
-  # Returns +true+ if the contents of streams +a+ and a file +b+ are identical,
+  # Returns +true+ if the contents of streams +a+ and +b+ are identical,
   # +false+ otherwise.
   #
   def compare_stream(a, b)
@@ -1360,7 +1353,7 @@ module FileUtils
 
   # Copies the file entry at path +src+ to the entry at path +dest+;
   # each of +src+ and +dest+ may be a string or a
-  # {Pathnames}[https://docs.ruby-lang.org/en/master/Pathname.html].
+  # {Pathname}[https://docs.ruby-lang.org/en/master/Pathname.html].
   #
   # See {install(1)}[https://man7.org/linux/man-pages/man1/install.1.html].
   #
@@ -1388,11 +1381,19 @@ module FileUtils
   #
   # Keyword arguments:
   #
-  # - <tt>group: <i>group</i></tt> - changes the group.
+  #   {chown(2)}[https://man7.org/linux/man-pages/man2/chown.2.html]
+  #   and {chmod(2)}[https://man7.org/linux/man-pages/man2/chmod.2.html]
+  #
+  #
+  # - <tt>group: <i>group</i></tt> - changes the group if not +nil+,
+  #   using {File.chown}[https://docs.ruby-lang.org/en/master/File.html#method-c-chown].
   # - <tt>mode: <i>permissions</i></tt> - changes the permissions.
+  #   using {File.chmod}[https://docs.ruby-lang.org/en/master/File.html#method-c-chmod].
   # - <tt>noop: true</tt> - does not remove entries; returns +nil+.
-  # - <tt>owner: <i>owner</i></tt> - changes the owner.
-  # - <tt>preserve: true</tt> - preserve timestamps.
+  # - <tt>owner: <i>owner</i></tt> - changes the owner if not +nil+,
+  #   using {File.chown}[https://docs.ruby-lang.org/en/master/File.html#method-c-chown].
+  # - <tt>preserve: true</tt> - preserve timestamps
+  #   using {File.utime}[https://docs.ruby-lang.org/en/master/File.html#method-c-utime].
   # - <tt>verbose: true</tt> - prints an equivalent command:
   #
   #     FileUtils.install('src0.txt', 'dest0.txt', noop: true, verbose: true)
