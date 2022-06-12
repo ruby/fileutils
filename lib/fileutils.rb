@@ -1758,7 +1758,7 @@ module FileUtils
 
   # Updates modification times (mtime) and access times (atime)
   # of the entries given by the paths in +list+;
-  # by defaault, creates an empty file for any path to a non-existent entry:
+  # by default, creates an empty file for any path to a non-existent entry:
   #
   #   # Single string path.
   #   f = File.new('src0.txt') # Existing file.
