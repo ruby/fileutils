@@ -986,9 +986,6 @@ module FileUtils
   # Copies \IO stream +src+ to \IO stream +dest+ via
   # {IO.copy_stream}[https://docs.ruby-lang.org/en/master/IO.html#method-c-copy_stream].
   #
-  # Arguments +src+ and +dest+
-  # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
-  #
   def copy_stream(src, dest)
     IO.copy_stream(src, dest)
   end
