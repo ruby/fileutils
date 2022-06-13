@@ -995,8 +995,8 @@ module FileUtils
   end
   module_function :copy_stream
 
-  # Moves files from +src+ to +dest+,
-  # each of which is a single path or an array of paths.
+  # Moves files from +src+ (a single path or an array of paths)
+  # to +dest+ (a single path).
   # If +src+ and +dest+ are on different devices,
   # first copies, then removes +src+.
   #
