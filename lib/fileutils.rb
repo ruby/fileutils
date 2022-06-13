@@ -1846,7 +1846,7 @@ module FileUtils
   # - <tt>mtime: <i>time</i></tt> - sets the entry's mtime to the given time,
   #   instead of the current time.
   # - <tt>nocreate: true</tt> - raises an exception if the entry does not exist.
-  # - <tt>noop: true</tt> - does not toucn entries; returns +nil+.
+  # - <tt>noop: true</tt> - does not touch entries; returns +nil+.
   # - <tt>verbose: true</tt> - prints an equivalent command:
   #
   #     FileUtils.touch('src0.txt', noop: true, verbose: true)
