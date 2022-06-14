@@ -817,10 +817,10 @@ module FileUtils
   alias copy cp
   module_function :copy
 
-  # Recursively copies files from +src+ (a single path or an array of paths)
-  # to +dest+ (a single path).
+  # Recursively copies files.
   #
-  # Arguments +src+ and +dest+
+  # Arguments +src+ (a single path or an array of paths)
+  # and +dest+ (a single path)
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
   #
   # If +src+ is the path to a file and +dest+ is not the path to a directory,
@@ -882,7 +882,7 @@ module FileUtils
   #     |-- dir0
   #     |   |-- src0.txt
   #     |   `-- src1.txt
-  #   `-- dir1
+  #     `-- dir1
   #         |-- src2.txt
   #         `-- src3.txt
   #
