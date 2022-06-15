@@ -168,7 +168,7 @@ end
 # - FileUtils.rm_rf with keyword argument <tt>secure: true</tt>.
 #
 # Finally, this method for moving entries calls \FileUtils.remove_entry_secure
-# if the source and destination are on different devices
+# if the source and destination are on different file systems
 # (which means that the "move" is really a copy and remove):
 #
 # - FileUtils.mv with keyword argument <tt>secure: true</tt>.
@@ -1024,7 +1024,7 @@ module FileUtils
   # and +dest+ (a single path)
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
   #
-  # If +src+ and +dest+ are on different devices,
+  # If +src+ and +dest+ are on different file systems,
   # first copies, then removes +src+.
   #
   # May cause a local vulnerability if not called with keyword argument
@@ -1067,7 +1067,7 @@ module FileUtils
   # Keyword arguments:
   #
   # - <tt>force: true</tt> - if the move includes removing +src+
-  #   (that is, if +src+ and +dest+ are on different devices),
+  #   (that is, if +src+ and +dest+ are on different file systems),
   #   ignores raised exceptions of StandardError and its descendants.
   # - <tt>noop: true</tt> - does not move files.
   # - <tt>secure: true</tt> - removes +src+ securely;
