@@ -555,6 +555,21 @@ module FileUtils
   #         "tmp1/tmp3/t2.txt",
   #         "tmp1/tmp3/t3.txt"]
   #
+  # If +src+ is an array of paths to files and +dest+ is the path to a directory,
+  # for each path +filepath+ in +src+, creates a link at <tt>dest/filepath</tt>
+  # pointing to that path:
+  #
+  #   FileUtils.rm_r('tmp1')
+  #   Dir.mkdir('tmp1')
+  #   FileUtils.cp_lr(['tmp0/tmp3/t2.txt', 'tmp0/tmp3/t3.txt'], 'tmp1')
+  #   Dir.glob('**/*.txt')
+  #   # => ["tmp0/tmp2/t0.txt",
+  #        "tmp0/tmp2/t1.txt",
+  #        "tmp0/tmp3/t2.txt",
+  #        "tmp0/tmp3/t3.txt",
+  #        "tmp1/t2.txt",
+  #        "tmp1/t3.txt"]
+  #
   # If +src+ and +dest+ are both paths to directories,
   # creates links <tt>dest/src</tt> and descendents
   # pointing to +src+ and its descendents:
@@ -570,21 +585,6 @@ module FileUtils
   #        "tmp1/tmp0/tmp2/t1.txt",
   #        "tmp1/tmp0/tmp3/t2.txt",
   #        "tmp1/tmp0/tmp3/t3.txt"]
-  #
-  # If +src+ is an array of paths to files and +dest+ is the path to a directory,
-  # for each path +filepath+ in +src+, creates a link at <tt>dest/filepath</tt>
-  # pointing to that path:
-  #
-  #   FileUtils.rm_r('tmp1')
-  #   Dir.mkdir('tmp1')
-  #   FileUtils.cp_lr(['tmp0/tmp3/t2.txt', 'tmp0/tmp3/t3.txt'], 'tmp1')
-  #   Dir.glob('**/*.txt')
-  #   # => ["tmp0/tmp2/t0.txt",
-  #        "tmp0/tmp2/t1.txt",
-  #        "tmp0/tmp3/t2.txt",
-  #        "tmp0/tmp3/t3.txt",
-  #        "tmp1/t2.txt",
-  #        "tmp1/t3.txt"]
   #
   # Keyword arguments:
   #
@@ -621,7 +621,7 @@ module FileUtils
   # and +dest+ (a single path)
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
   #
-  # If +src+ is the path to an existing file:
+  # When +src+ is the path to an existing file:
   #
   # - When +dest+ is the path to a non-existent file,
   #   creates a symbolic link at +dest+ pointing to +src+:
@@ -643,7 +643,7 @@ module FileUtils
   #
   #     FileUtils.ln_s('src1.txt', 'dest1.txt') # Raises Errno::EEXIST.
   #
-  # If +dest+ is the path to a directory,
+  # When +dest+ is the path to a directory,
   # creates a symbolic link at <tt>dest/src</tt> pointing to +src+:
   #
   #   FileUtils.touch('src2.txt')
@@ -651,7 +651,7 @@ module FileUtils
   #   FileUtils.ln_s('src2.txt', 'destdir2')
   #   File.symlink?('destdir2/src2.txt') # => true
   #
-  # If +src+ is an array of paths to existing files and +dest+ is a directory,
+  # When +src+ is an array of paths to existing files and +dest+ is a directory,
   # for each child +child+ in +src+ creates a symbolic link <tt>dest/child</tt>
   # pointing to +child+:
   #
@@ -751,7 +751,7 @@ module FileUtils
   end
   module_function :link_entry
 
-  # Copies files.
+  # Copies files from +src+ to +dest+.
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -1018,14 +1018,13 @@ module FileUtils
   end
   module_function :copy_stream
 
-  # Moves entries.
-  #
-  # Arguments +src+ (a single path or an array of paths)
-  # and +dest+ (a single path)
-  # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
-  #
+  # Moves files from +src+ (a single path or an array of paths)
+  # to +dest+ (a single path).
   # If +src+ and +dest+ are on different devices,
   # first copies, then removes +src+.
+  #
+  # Arguments +src+ and +dest+
+  # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
   #
   # May cause a local vulnerability if not called with keyword argument
   # <tt>secure: true</tt>;
@@ -1458,29 +1457,31 @@ module FileUtils
   end
   module_function :compare_stream
 
-  # Copies a file entry;
-  # see {install(1)}[https://man7.org/linux/man-pages/man1/install.1.html].
+  # Copies a file entry.
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments];
+  # see {install(1)}[https://man7.org/linux/man-pages/man1/install.1.html].
   #
-  # If the entry at +dest+ does not exist, copies from +src+ to +dest+:
+  # If +src+ points to an existing file and +dest+ does not exist,
+  # copies from +src+ to +dest+:
   #
-  #   File.read('src0.txt')    # => "aaa\n"
+  #   File.file?('src0.txt')   # => true
   #   File.exist?('dest0.txt') # => false
   #   FileUtils.install('src0.txt', 'dest0.txt')
-  #   File.read('dest0.txt')   # => "aaa\n"
+  #   File.exist?('dest0.txt') # => true
   #
-  # If +dest+ is a file entry, copies from +src+ to +dest+, overwriting:
+  # If both +src+ and +dest+ point to existing files,
+  # copies from +src+ to +dest+, overwriting if necessary:
   #
   #   File.read('src1.txt')  # => "aaa\n"
   #   File.read('dest1.txt') # => "bbb\n"
   #   FileUtils.install('src1.txt', 'dest1.txt')
   #   File.read('dest1.txt') # => "aaa\n"
   #
-  # If +dest+ is a directory entry, copies from +src+ to <tt>dest/src</tt>,
-  # overwriting if necessary:
+  # If +src+ points to an existing file and +dest+ points to an existing directory,
+  # copies +src+ to <tt>dest/src</tt>:
   #
   #   File.read('src2.txt')       # => "aaa\n"
   #   File.read('dest2/src2.txt') # => "bbb\n"
@@ -1510,15 +1511,9 @@ module FileUtils
   #   using {File.utime}[https://docs.ruby-lang.org/en/master/File.html#method-c-utime].
   # - <tt>verbose: true</tt> - prints an equivalent command:
   #
-  #     FileUtils.install('src0.txt', 'dest0.txt', noop: true, verbose: true)
-  #     FileUtils.install('src1.txt', 'dest1.txt', noop: true, verbose: true)
-  #     FileUtils.install('src2.txt', 'dest2', noop: true, verbose: true)
   #
   #   Output:
   #
-  #     install -c src0.txt dest0.txt
-  #     install -c src1.txt dest1.txt
-  #     install -c src2.txt dest2
   #
   def install(src, dest, mode: nil, owner: nil, group: nil, preserve: nil,
               noop: nil, verbose: nil)
