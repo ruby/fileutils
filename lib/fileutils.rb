@@ -25,6 +25,7 @@ end
 # - {Comparing}[rdoc-ref:FileUtils@Comparing].
 # - {Copying}[rdoc-ref:FileUtils@Copying].
 # - {Moving}[rdoc-ref:FileUtils@Copying].
+# - {Options}[rdoc-ref:FileUtils@Options].
 #
 # === Creating
 #
@@ -46,15 +47,10 @@ end
 # - ::rm_f, ::safe_unlink: Like ::rm, but removes forcibly.
 # - ::rm_r: Removes entries and their descendants.
 # - ::rm_rf, ::rmtree: Like ::rm_r, but removes forcibly.
-# - ::rmdir: Removes directories and their descendants.
+# - ::rmdir: Removes directories.
 #
 # === Querying
 #
-# - ::collect_method: Returns the names of methods that accept a given option.
-# - ::commands: Returns the names of methods that accept options.
-# - ::have_option?: Returns whether a given method accepts a given option.
-# - ::options: Returns all option names.
-# - ::options_of: Returns the names of the options for a given method.
 # - ::pwd, ::getwd: Returns the path to the working directory.
 # - ::uptodate?: Returns whether a given entry is newer than given other entries.
 #
@@ -86,6 +82,14 @@ end
 # === Moving
 #
 # - ::mv, ::move: Moves entries.
+#
+# === Options
+#
+# - ::collect_method: Returns the names of methods that accept a given option.
+# - ::commands: Returns the names of methods that accept options.
+# - ::have_option?: Returns whether a given method accepts a given option.
+# - ::options: Returns all option names.
+# - ::options_of: Returns the names of the options for a given method.
 #
 # == Path Arguments
 #
