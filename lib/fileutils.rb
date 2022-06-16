@@ -366,9 +366,9 @@ module FileUtils
   #     mkdir -p tmp0 tmp1
   #     mkdir -p -m 700 tmp2 tmp3
   #
-  # FileUtils.mkpath and FileUtils.makedirs are aliases for FileUtils.mkdir_p.
-  #
   # Raises an exception if for any reason a directory cannot be created.
+  #
+  # FileUtils.mkpath and FileUtils.makedirs are aliases for FileUtils.mkdir_p.
   #
   def mkdir_p(list, mode: nil, noop: nil, verbose: nil)
     list = fu_list(list)
@@ -427,7 +427,6 @@ module FileUtils
   #   FileUtils.rmdir(%w[tmp0/tmp1 tmp2/tmp3]) # => ["tmp0/tmp1", "tmp2/tmp3"]
   #   FileUtils.rmdir('tmp4/tmp5')             # => ["tmp4/tmp5"]
   #
-  #
   # Keyword arguments:
   #
   # - <tt>parents: true</tt> - removes successive ancestor directories
@@ -465,8 +464,7 @@ module FileUtils
   end
   module_function :rmdir
 
-  # Creates {hard links}[https://en.wikipedia.org/wiki/Hard_link];
-  # returns zero.
+  # Creates {hard links}[https://en.wikipedia.org/wiki/Hard_link].
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -516,10 +514,10 @@ module FileUtils
   #     ln tmp2/t.dat tmp3
   #     ln tmp0/t.txt tmp2/t.dat tmp4/
   #
-  # FileUtils#link is an alias for FileUtils#ln.
-  #
   # Raises an exception if +dest+ is the path to an existing file
   # and keyword argument +force+ is not +true+.
+  #
+  # FileUtils#link is an alias for FileUtils#ln.
   #
   def ln(src, dest, force: nil, noop: nil, verbose: nil)
     fu_output_message "ln#{force ? ' -f' : ''} #{[src,dest].flatten.join ' '}" if verbose
@@ -534,8 +532,7 @@ module FileUtils
   alias link ln
   module_function :link
 
-  # Creates {hard links}[https://en.wikipedia.org/wiki/Hard_link];
-  # returns +nil+.
+  # Creates {hard links}[https://en.wikipedia.org/wiki/Hard_link].
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -757,7 +754,7 @@ module FileUtils
   end
   module_function :link_entry
 
-  # Copies files; returns +nil+.
+  # Copies files.
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -805,11 +802,11 @@ module FileUtils
   #     cp src1.txt dest1
   #     cp src2.txt src2.dat dest2
   #
+  # Raises an exception if +src+ is a directory.
+  #
   # Related: FileUtils.cp_r (recursive).
   #
   # FileUtils.copy is an alias for FileUtils.cp.
-  #
-  # Raises an exception if +src+ is a directory.
   #
   def cp(src, dest, preserve: nil, noop: nil, verbose: nil)
     fu_output_message "cp#{preserve ? ' -p' : ''} #{[src,dest].flatten.join ' '}" if verbose
@@ -823,7 +820,7 @@ module FileUtils
   alias copy cp
   module_function :copy
 
-  # Recursively copies files; returns +nil+.
+  # Recursively copies files.
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -917,10 +914,10 @@ module FileUtils
   #     cp -r src2 dest2
   #     cp -r src3 dest3
   #
-  # Related: FileUtils.cp (not recursive).
-  #
   # Raises an exception of +src+ is the path to a directory
   # and +dest+ is the path to a file.
+  #
+  # Related: FileUtils.cp (not recursive).
   #
   def cp_r(src, dest, preserve: nil, noop: nil, verbose: nil,
            dereference_root: true, remove_destination: nil)
@@ -932,7 +929,7 @@ module FileUtils
   end
   module_function :cp_r
 
-  # Recursively copies files from +src+ to +dest+; returns +nil+.
+  # Recursively copies files from +src+ to +dest+.
   #
   # Arguments +src+ and +dest+
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
@@ -991,8 +988,7 @@ module FileUtils
   end
   module_function :copy_entry
 
-  # Copies file from +src+ to +dest+, which should not be directories;
-  # returns +nil+.
+  # Copies file from +src+ to +dest+, which should not be directories.
   #
   # Arguments +src+ and +dest+
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
@@ -1018,15 +1014,14 @@ module FileUtils
   module_function :copy_file
 
   # Copies \IO stream +src+ to \IO stream +dest+ via
-  # {IO.copy_stream}[https://docs.ruby-lang.org/en/master/IO.html#method-c-copy_stream];
-  # returns the number of bytes copied.
+  # {IO.copy_stream}[https://docs.ruby-lang.org/en/master/IO.html#method-c-copy_stream].
   #
   def copy_stream(src, dest)
     IO.copy_stream(src, dest)
   end
   module_function :copy_stream
 
-  # Moves entries; returns zero.
+  # Moves entries.
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -1271,7 +1266,7 @@ module FileUtils
 
   # Securely removes the entry given by +path+,
   # which should be the entry for a regular file, a symbolic link,
-  # or a directory; returns +nil+.
+  # or a directory.
   #
   # Argument +path+
   # should be {interpretable as a path}[rdoc-ref:FileUtils@Path+Arguments].
@@ -1370,7 +1365,7 @@ module FileUtils
 
   # Removes the entry given by +path+,
   # which should be the entry for a regular file, a symbolic link,
-  # or a directory; returns +nil+.
+  # or a directory.
   #
   # Argument +path+
   # should be {interpretable as a path}[rdoc-ref:FileUtils@Path+Arguments].
@@ -1394,8 +1389,7 @@ module FileUtils
   module_function :remove_entry
 
   # Removes the file entry given by +path+,
-  # which should be the entry for a regular file or a symbolic link;
-  # returns 1 if the entry was removed, +nil+ otherwise.
+  # which should be the entry for a regular file or a symbolic link.
   #
   # Argument +path+
   # should be {interpretable as a path}[rdoc-ref:FileUtils@Path+Arguments].
@@ -1412,7 +1406,7 @@ module FileUtils
 
   # Recursively removes the directory entry given by +path+,
   # which should be the entry for a regular file, a symbolic link,
-  # or a directory; returns +nil+.
+  # or a directory.
   #
   # Argument +path+
   # should be {interpretable as a path}[rdoc-ref:FileUtils@Path+Arguments].
@@ -1469,7 +1463,7 @@ module FileUtils
   end
   module_function :compare_stream
 
-  # Copies a file entry; returns +nil+.
+  # Copies a file entry.
   # See {install(1)}[https://man7.org/linux/man-pages/man1/install.1.html].
   #
   # Arguments +src+ (a single path or an array of paths)
