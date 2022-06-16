@@ -617,8 +617,7 @@ module FileUtils
   end
   module_function :cp_lr
 
-  # Creates {symbolic links}[https://en.wikipedia.org/wiki/Symbolic_link];
-  # returns zero.
+  # Creates {symbolic links}[https://en.wikipedia.org/wiki/Symbolic_link.
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
