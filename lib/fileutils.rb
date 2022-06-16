@@ -8,6 +8,85 @@ end
 
 # Namespace for file utility methods for copying, moving, removing, etc.
 #
+# == What's Here
+#
+# First, what’s elsewhere. \Module \FileUtils:
+#
+# - Inherits from {class Object}[https://docs.ruby-lang.org/en/master/Object.html].
+# - Supplements {class File}[https://docs.ruby-lang.org/en/master/File.html]
+#   (but is not included or extended there).
+#
+# Here, module \FileUtils provides methods that are useful for:
+#
+# - {Creating}[rdoc-ref:FileUtils@Creating].
+# - {Deleting}[rdoc-ref:FileUtils@Deleting].
+# - {Querying}[rdoc-ref:FileUtils@Querying].
+# - {Setting}[rdoc-ref:FileUtils@Setting].
+# - {Comparing}[rdoc-ref:FileUtils@Comparing].
+# - {Copying}[rdoc-ref:FileUtils@Copying].
+# - {Moving}[rdoc-ref:FileUtils@Copying].
+#
+# === Creating
+#
+# - ::mkdir: Creates directories.
+# - ::mkdir_p, ::makedirs, ::mkpath: Creates directories,
+#   also creating ancestor directories as needed.
+# - ::link_entry: Creates a hard link.
+# - ::ln, ::link: Creates hard links.
+# - ::ln_s, ::symlink: Creates symbolic links.
+# - ::ln_sf: Creates symbolic links, overwriting if necessary.
+#
+# === Deleting
+#
+# - ::remove_dir: Removes a directory and its descendants.
+# - ::remove_entry: Removes an entry, including its descendants if it is a directory.
+# - ::remove_entry_secure: Like ::remove_entry, but removes securely.
+# - ::remove_file: Removes a file entry.
+# - ::rm, ::remove: Removes entries.
+# - ::rm_f, ::safe_unlink: Like ::rm, but removes forcibly.
+# - ::rm_r: Removes entries and their descendants.
+# - ::rm_rf, ::rmtree: Like ::rm_r, but removes forcibly.
+# - ::rmdir: Removes directories and their descendants.
+#
+# === Querying
+#
+# - ::collect_method: Returns the names of methods that accept a given option.
+# - ::commands: Returns the names of methods that accept options.
+# - ::have_option?: Returns whether a given method accepts a given option.
+# - ::options: Returns all option names.
+# - ::options_of: Returns the names of the options for a given method.
+# - ::pwd, ::getwd: Returns the path to the working directory.
+# - ::uptodate?: Returns whether a given entry is newer than given other entries.
+#
+# === Setting
+#
+# - ::cd, ::chdir: Sets the working directory.
+# - ::chmod: Sets permissions for an entry.
+# - ::chmod_R: Sets permissions for an entry and its descendants.
+# - ::chown: Sets the owner and group for entries.
+# - ::chown_R: Sets the owner and group for entries and their descendants.
+# - ::touch: Sets modification and access times for entries,
+#   creating if necessary.
+#
+# === Comparing
+#
+# - ::compare_file, ::cmp, ::identical?: Returns whether two entries are identical.
+# - ::compare_stream: Returns whether two streams are identical.
+#
+# === Copying
+#
+# - ::copy_entry: Recursively copies an entry.
+# - ::copy_file: Copies an entry.
+# - ::copy_stream: Copies a stream.
+# - ::cp, ::copy: Copies files.
+# - ::cp_lr: Recursively creates hard links.
+# - ::cp_r: Recursively copies files.
+# - ::install: Recursively copies files (with options different from ::cp_r).
+#
+# === Moving
+#
+# - ::mv, ::move: Moves entries.
+#
 # == Path Arguments
 #
 # Some methods in \FileUtils accept _path_ arguments,
@@ -48,42 +127,6 @@ end
 #       |-- envutil.rb
 #       |-- find_executable.rb
 #       `-- helper.rb
-#
-# == Options
-#
-# Options to the methods are given as keyword arguments.
-#
-# The most common options (often useful together) are:
-#
-# - +noop+: Do not actually make modifications.
-# - +verbose+: Print a command that is equivalent to the method
-#   called with the given arguments and options.
-#
-# Other options include:
-#
-# - +dereference_root+: Whether, if the argument is a symbolic, to follow it.
-# - +force+: Whether to force the operation
-#   (overwrite entries, remove non-empty directory, etc.).
-# - +group+: Sets an entry's group.
-# - +mode+: Sets an entry's permissions.
-# - +mtime+: Sets an entry's modification time.
-# - +nocreate+: Whether to raise an exception if an entry does not exist
-#   (rather than creating the entry).
-# - +owner+: Sets an entry's owner.
-# - +parents+: Whether to remove empty ancestor directories.
-# - +preserve+: Whether to preserve an entry's group, user, and modification time
-#   when copying.
-# - +remove_destination+: Whether to remove the destination entry before copying
-#   to it.
-# - +secure+: Whether to remove the source entry securely.
-#
-# See also:
-#
-# - ::commands: Returns an array of the string names of methods
-#   that accept keyword options.
-# - ::have_option?: Returns whether the given method accepts the given option.
-# - ::options: Returns an array of the option names.
-# - ::options_of: Returns an array of the option-names that the given method accepts.
 #
 # == Avoiding the TOCTTOU Vulnerability
 #
