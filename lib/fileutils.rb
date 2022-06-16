@@ -617,7 +617,7 @@ module FileUtils
   end
   module_function :cp_lr
 
-  # Creates {symbolic links}[https://en.wikipedia.org/wiki/Symbolic_link.
+  # Creates {symbolic links}[https://en.wikipedia.org/wiki/Symbolic_link].
   #
   # Arguments +src+ (a single path or an array of paths)
   # and +dest+ (a single path)
@@ -1871,7 +1871,8 @@ module FileUtils
   # (a single path or an array of paths);
   # returns +list+ if it is an array, <tt>[list]</tt> otherwise.
   #
-  # By default, creates an empty file for any path to a non-existent entry.
+  # By default, creates an empty file for any path to a non-existent entry;
+  # use keyword argument +nocreate+ to raise an exception instead.
   #
   # Argument +list+ or its elements
   # should be {interpretable as paths}[rdoc-ref:FileUtils@Path+Arguments].
