@@ -196,9 +196,9 @@ module FileUtils
   #
   #   FileUtils.pwd # => "/rdoc/fileutils"
   #
-  # Related: FileUtils.cd.
-  #
   # FileUtils.getwd is an alias for FileUtils.pwd.
+  #
+  # Related: FileUtils.cd.
   #
   def pwd
     Dir.pwd
@@ -239,9 +239,9 @@ module FileUtils
   #     cd ..
   #     cd fileutils
   #
-  # Related: FileUtils.pwd.
-  #
   # FileUtils.chdir is an alias for FileUtils.cd.
+  #
+  # Related: FileUtils.pwd.
   #
   def cd(dir, verbose: nil, &block) # :yield: dir
     fu_output_message "cd #{dir}" if verbose
@@ -366,9 +366,9 @@ module FileUtils
   #
   # Raises an exception if for any reason a directory cannot be created.
   #
-  # Related: FileUtils.mkdir.
-  #
   # FileUtils.mkpath and FileUtils.makedirs are aliases for FileUtils.mkdir_p.
+  #
+  # Related: FileUtils.mkdir.
   #
   def mkdir_p(list, mode: nil, noop: nil, verbose: nil)
     list = fu_list(list)
@@ -519,9 +519,9 @@ module FileUtils
   # Raises an exception if +dest+ is the path to an existing file
   # and keyword argument +force+ is not +true+.
   #
-  # Related: FileUtils.link_entry (has different options).
-  #
   # FileUtils#link is an alias for FileUtils#ln.
+  #
+  # Related: FileUtils.link_entry (has different options).
   #
   def ln(src, dest, force: nil, noop: nil, verbose: nil)
     fu_output_message "ln#{force ? ' -f' : ''} #{[src,dest].flatten.join ' '}" if verbose
@@ -689,9 +689,9 @@ module FileUtils
   #     ln -sf src2.txt dest2.txt
   #     ln -s srcdir3/src0.txt srcdir3/src1.txt destdir3
   #
-  # Related: FileUtils.ln_sf.
-  #
   # FileUtils.symlink is an alias for FileUtils.ln_s.
+  #
+  # Related: FileUtils.ln_sf.
   #
   def ln_s(src, dest, force: nil, noop: nil, verbose: nil)
     fu_output_message "ln -s#{force ? 'f' : ''} #{[src,dest].flatten.join ' '}" if verbose
@@ -813,9 +813,9 @@ module FileUtils
   #
   # Raises an exception if +src+ is a directory.
   #
-  # Related: {methods for copying}[rdoc-ref:FileUtils@Copying].
-  #
   # FileUtils.copy is an alias for FileUtils.cp.
+  #
+  # Related: {methods for copying}[rdoc-ref:FileUtils@Copying].
   #
   def cp(src, dest, preserve: nil, noop: nil, verbose: nil)
     fu_output_message "cp#{preserve ? ' -p' : ''} #{[src,dest].flatten.join ' '}" if verbose
@@ -1159,9 +1159,9 @@ module FileUtils
   #
   #     rm src0.dat src0.txt
   #
-  # Related: {methods for deleting}[rdoc-ref:FileUtils@Deleting].
-  #
   # FileUtils.remove is an alias for FileUtils.rm.
+  #
+  # Related: {methods for deleting}[rdoc-ref:FileUtils@Deleting].
   #
   def rm(list, force: nil, noop: nil, verbose: nil)
     list = fu_list(list)
@@ -1186,9 +1186,9 @@ module FileUtils
   #
   # See FileUtils.rm for keyword arguments.
   #
-  # Related: {methods for deleting}[rdoc-ref:FileUtils@Deleting].
-  #
   # FileUtils.safe_unlink is an alias for FileUtils.rm_f.
+  #
+  # Related: {methods for deleting}[rdoc-ref:FileUtils@Deleting].
   #
   def rm_f(list, noop: nil, verbose: nil)
     rm list, force: true, noop: noop, verbose: verbose
@@ -1454,9 +1454,9 @@ module FileUtils
   # Arguments +a+ and +b+
   # should be {interpretable as a path}[rdoc-ref:FileUtils@Path+Arguments].
   #
-  # Related: FileUtils.compare_stream.
-  #
   # FileUtils.identical? and FileUtils.cmp are aliases for FileUtils.compare_file.
+  #
+  # Related: FileUtils.compare_stream.
   #
   def compare_file(a, b)
     return false unless File.size(a) == File.size(b)
