@@ -1372,7 +1372,7 @@ module FileUtils
   # Optional argument +force+ specifies whether to ignore
   # raised exceptions of StandardError and its descendants.
   #
-  # Related: {methods for deleting}[rdoc-ref:FileUtils@Deleting].
+  # Related: FileUtils.remove_entry_secure.
   #
   def remove_entry(path, force = false)
     Entry_.new(path).postorder_traverse do |ent|
