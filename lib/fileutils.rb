@@ -8,6 +8,16 @@ end
 
 # Namespace for file utility methods for copying, moving, removing, etc.
 #
+# You can call a method in the module citing the module name:
+#
+#   FileUtils.pwd # => "/rdoc/fileutils"
+#
+# If you first include the module, you can call the method
+# without the module name:
+#
+#   include FileUtils
+#   pwd # => "/rdoc/fileutils"
+#
 # == What's Here
 #
 # First, what’s elsewhere. \Module \FileUtils:
