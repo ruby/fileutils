@@ -532,23 +532,23 @@ module FileUtils
   # creates links +dest+ and descendents pointing to +src+ and its descendents:
   #
   #   tree('src0')
-  #   src0
-  #   |-- sub0
-  #   |   |-- src0.txt
-  #   |   `-- src1.txt
-  #   `-- sub1
-  #       |-- src2.txt
-  #       `-- src3.txt
+  #   # => src0
+  #   #    |-- sub0
+  #   #    |   |-- src0.txt
+  #   #    |   `-- src1.txt
+  #   #    `-- sub1
+  #   #        |-- src2.txt
+  #   #        `-- src3.txt
   #   File.exist?('dest0') # => false
   #   FileUtils.cp_lr('src0', 'dest0')
   #   tree('dest0')
-  #   dest0
-  #   |-- sub0
-  #   |   |-- src0.txt
-  #   |   `-- src1.txt
-  #   `-- sub1
-  #       |-- src2.txt
-  #       `-- src3.txt
+  #   # => dest0
+  #   #    |-- sub0
+  #   #    |   |-- src0.txt
+  #   #    |   `-- src1.txt
+  #   #    `-- sub1
+  #   #        |-- src2.txt
+  #   #        `-- src3.txt
   #
   # If +src+ and +dest+ are both paths to directories,
   # creates links <tt>dest/src</tt> and descendents
@@ -1067,7 +1067,7 @@ module FileUtils
   #   src1
   #   |-- src.dat
   #   `-- src.txt
-  #   Dir.empty?('dest1') # => true
+  #   Dir.empty?('dest1')    # => true
   #   FileUtils.mv(['src1.txt', 'src1'], 'dest1')
   #   tree('dest1')
   #   dest1
