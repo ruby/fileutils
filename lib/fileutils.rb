@@ -531,17 +531,17 @@ module FileUtils
   # If +src+ is the path to a directory and +dest+ does not exist,
   # creates links +dest+ and descendents pointing to +src+ and its descendents:
   #
-  #   tree src0
+  #   tree('src0')
   #   src0
   #   |-- sub0
   #   |   |-- src0.txt
   #   |   `-- src1.txt
-  #  `-- sub1
+  #   `-- sub1
   #       |-- src2.txt
   #       `-- src3.txt
   #   File.exist?('dest0') # => false
   #   FileUtils.cp_lr('src0', 'dest0')
-  #   tree dest0
+  #   tree('dest0')
   #   dest0
   #   |-- sub0
   #   |   |-- src0.txt
@@ -554,7 +554,7 @@ module FileUtils
   # creates links <tt>dest/src</tt> and descendents
   # pointing to +src+ and its descendents:
   #
-  #   tree src1
+  #   tree('src1')
   #   src1
   #   |-- sub0
   #   |   |-- src0.txt
@@ -564,7 +564,7 @@ module FileUtils
   #       `-- src3.txt
   #   FileUtils.mkdir('dest1')
   #   FileUtils.cp_lr('src1', 'dest1')
-  #   tree dest1
+  #   tree('dest1')
   #   dest1
   #   `-- src1
   #       |-- sub0
@@ -587,7 +587,7 @@ module FileUtils
   #       `-- src3.txt
   #   FileUtils.mkdir('dest2')
   #   FileUtils.cp_lr(['src2/sub0', 'src2/sub1'], 'dest2')
-  #   tree dest2
+  #   tree('dest2')
   #   dest2
   #   |-- sub0
   #   |   |-- src0.txt
