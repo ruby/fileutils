@@ -1645,7 +1645,7 @@ module FileUtils
         begin
           require 'pathname'
         rescue LoadError
-          raise "cannot load pathname"
+          raise "Cannot load module pathname."
         end
         mkdir_p Pathname.new(d).parent
         copy_file s, d
