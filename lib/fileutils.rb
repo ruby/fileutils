@@ -1642,6 +1642,12 @@ module FileUtils
       st = File.stat(s)
       unless File.exist?(d) and compare_file(s, d)
         remove_file d, true
+        begin
+          require 'pathname'
+        rescue LoadError
+          raise "cannot load pathname"
+        end
+        mkdir_p Pathname.new(d).parent
         copy_file s, d
         File.utime st.atime, st.mtime, d if preserve
         File.chmod fu_mode(mode, st), d if mode
