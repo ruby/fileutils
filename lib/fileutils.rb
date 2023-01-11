@@ -1642,7 +1642,7 @@ module FileUtils
       st = File.stat(s)
       unless File.exist?(d) and compare_file(s, d)
         remove_file d, true
-        if d.to_s.end_with?('/')
+        if d.end_with?('/')
           mkdir_p d
           copy_file s, d + File.basename(s)
         else
