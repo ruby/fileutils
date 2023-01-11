@@ -1642,13 +1642,13 @@ module FileUtils
       st = File.stat(s)
       unless File.exist?(d) and compare_file(s, d)
         remove_file d, true
-        begin
-          require 'pathname'
-        rescue LoadError
-          raise "Cannot load module pathname for determining parent directory for #{d}."
+        if d.to_s.end_with?('/')
+          mkdir_p d
+          copy_file s, d + File.basename(s)
+        else
+          mkdir_p File.expand_path('..', d)
+          copy_file s, d
         end
-        mkdir_p Pathname.new(d).parent
-        copy_file s, d
         File.utime st.atime, st.mtime, d if preserve
         File.chmod fu_mode(mode, st), d if mode
         File.chown uid, gid, d if uid or gid
