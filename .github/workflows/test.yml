@@ -18,6 +18,7 @@ jobs:
         exclude:
           - { os: windows-latest, ruby: 'truffleruby' }
           - { os: windows-latest, ruby: 'truffleruby-head' }
+          - { os: windows-latest, ruby: 'jruby-head' }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
