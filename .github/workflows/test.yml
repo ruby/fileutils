@@ -28,14 +28,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true # 'bundle install' and cache
-      - name: Ensure new-enough RubyGems for Ruby 2.6
-        run: gem update --system
-        if: ${{ matrix.ruby == '2.6' }}
-      - name: Ensure new-enough RubyGems for Ruby 2.5
-        run: |
-          gem install rubygems-update -v "~> 3.3.26"
-          update_rubygems
-        if: ${{ matrix.ruby == '2.5' }}
       - name: Run test
         run: bundle exec rake
         env:
