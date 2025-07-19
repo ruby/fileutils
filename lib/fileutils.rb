@@ -1487,7 +1487,7 @@ module FileUtils
   # Related: {methods for deleting}[rdoc-ref:FileUtils@Deleting].
   #
   def remove_dir(path, force = false)
-    raise Errno::ENOTDIR, path unless File.directory?(path)
+    raise Errno::ENOTDIR, path unless force or File.directory?(path)
     remove_entry path, force
   end
   module_function :remove_dir
@@ -2473,6 +2473,7 @@ module FileUtils
   def fu_each_src_dest0(src, dest, target_directory = true)   #:nodoc:
     if tmp = Array.try_convert(src)
       unless target_directory or tmp.size <= 1
+        tmp = tmp.map {|f| File.path(f)} # A workaround for RBS
         raise ArgumentError, "extra target #{tmp}"
       end
       tmp.each do |s|
