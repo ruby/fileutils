@@ -176,8 +176,8 @@ end
 #
 # For details of this security vulnerability, see Perl cases:
 #
-# - {CVE-2005-0448}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2005-0448].
-# - {CVE-2004-0452}[https://cve.mitre.org/cgi-bin/cvename.cgi?name=CAN-2004-0452].
+# - {CVE-2005-0448}[https://www.cve.org/CVERecord?id=CVE-2005-0448].
+# - {CVE-2004-0452}[https://www.cve.org/CVERecord?id=CVE-2004-0452].
 #
 module FileUtils
   # The version number.
