@@ -309,7 +309,7 @@ module FileUtils
   # ```ruby
   # FileUtils.mkdir('bar', mode: 0664)
   # File.stat(Dir.new('bar')).mode.to_s(8) # => "40664"
-  # FileUtils.rmdir(%w[foo bar])
+  # FileUtils.rmdir('bar')
   # ```
   #
   # With keyword argument `noop` given as `true`,
