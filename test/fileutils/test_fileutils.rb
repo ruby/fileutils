@@ -2100,6 +2100,10 @@ cd -
   end
 
   def test_options
+    options = FileUtils.options
+    assert_include(options, 'force')
+    assert_include(options, 'verbose')
+    assert_equal(options.uniq, options)
   end
 
   def test_options_of
