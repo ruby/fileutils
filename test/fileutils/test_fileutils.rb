@@ -2094,6 +2094,10 @@ cd -
   end
 
   def test_commands
+    commands = FileUtils.commands
+    assert_include(commands, 'mv')
+    assert_include(commands, 'chdir')
+    assert_equal(commands.uniq, commands)
   end
 
   def test_have_option?
