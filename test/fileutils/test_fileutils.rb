@@ -2103,6 +2103,8 @@ cd -
   end
 
   def test_options_of
+    assert_equal(%w[force noop verbose secure], FileUtils.options_of(:mv))
+    assert_equal(%w[force noop verbose secure], FileUtils.options_of('mv'))
   end
 
 end
