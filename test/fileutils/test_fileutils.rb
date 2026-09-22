@@ -582,6 +582,11 @@ class TestFileUtils < Test::Unit::TestCase
   def test_mv
     check_singleton :mv
 
+    File.write('tmp/source', "contents\n")
+    assert_equal(0, FileUtils.mv('tmp/source', 'tmp/destination'))
+    assert_file_not_exist('tmp/source')
+    assert_equal("contents\n", File.read('tmp/destination'))
+
     mkdir 'tmp/dest'
     TARGETS.each do |fname|
       cp fname, 'tmp/mvsrc'
@@ -1989,6 +1994,7 @@ cd -
 
   def test_move
     check_singleton :move
+    assert_equal(FileUtils.method(:mv), FileUtils.method(:move))
   end
 
   def test_rm_rf
