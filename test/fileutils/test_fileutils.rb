@@ -1969,6 +1969,7 @@ cd -
 
   def test_getwd
     check_singleton :getwd
+    assert_equal(FileUtils.method(:pwd), FileUtils.method(:getwd))
   end
 
   def test_identical?
